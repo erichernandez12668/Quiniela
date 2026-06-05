@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiniela Mundial FIFA 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --red: #C0392B;
+      --dark: #0A0E1A;
+      --dark2: #111827;
+      --dark3: #1a2236;
+      --glass: rgba(255,255,255,0.05);
+      --glass-border: rgba(201,168,76,0.2);
+      --text: #E8E8E8;
+      --text-dim: #8A92A6;
+      --accent: #3B82F6;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body {
+      height: 100%;
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* BACKGROUND */
+    .bg-orbs {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+      animation: float 12s ease-in-out infinite;
+    }
+    .orb1 { width:500px; height:500px; background: #C9A84C; top:-100px; right:-100px; animation-delay: 0s; }
+    .orb2 { width:400px; height:400px; background: #1e3a8a; bottom:-100px; left:-100px; animation-delay: -4s; }
+    .orb3 { width:300px; height:300px; background: #C0392B; top:50%; left:40%; animation-delay: -8s; }
+    @keyframes float {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    /* HEXAGONAL PATTERN */
+    .hex-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V17L28 0l28 17v33zm0-5.5L4.5 47.5V19.5L28 5l23.5 14.5V48z' fill='none' stroke='rgba(201,168,76,0.06)' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 56px 100px;
+    }
+
+    /* MAIN LAYOUT */
+    .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* HEADER */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+    }
+    .logo {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .logo-sub {
+      font-size: 11px; color: var(--text-dim); letter-spacing: 3px;
+      text-transform: uppercase; margin-top: -4px;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+    .header-nav { display: flex; gap: 12px; }
+    .btn-outline {
+      padding: 8px 20px; border: 1px solid var(--glass-border);
+      background: transparent; color: var(--text-dim);
+      border-radius: 6px; cursor: pointer; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 60px 20px; flex-direction: column; text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 20px; padding: 6px 16px; margin-bottom: 30px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase;
+    }
+    .hero-badge span { width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(60px, 12vw, 130px);
+      line-height: 0.9;
+      letter-spacing: 4px;
+      background: linear-gradient(180deg, #ffffff 0%, var(--gold) 60%, #7a5a1a 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+    .hero-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 8vw, 80px);
+      letter-spacing: 12px;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 24px;
+    }
+    .hero p {
+      font-size: 16px; color: var(--text-dim); max-width: 500px;
+      line-height: 1.7; margin-bottom: 50px;
+      font-family: 'Barlow', sans-serif; font-weight: 300;
+    }
+
+    /* CARDS CONTAINER */
+    .cards {
+      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+      width: 100%; max-width: 800px;
+    }
+    .card {
+      flex: 1; min-width: 280px; max-width: 360px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px; padding: 32px;
+      backdrop-filter: blur(20px);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content:''; position:absolute; inset:0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent);
+      pointer-events: none;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 20px 60px rgba(201,168,76,0.15);
+    }
+    .card-icon {
+      width: 52px; height: 52px; border-radius: 12px; margin-bottom: 18px;
+      display: flex; align-items: center; justify-content: center; font-size: 24px;
+    }
+    .card-icon.gold { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3); }
+    .card-icon.blue { background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); }
+    .card h3 {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 20px;
+      font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+    }
+    .card p { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-bottom: 24px; }
+
+    /* FORM ELEMENTS */
+    .input-group { position: relative; margin-bottom: 14px; }
+    .input-group label {
+      display: block; font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-dim);
+      font-family: 'Barlow Condensed', sans-serif;
+      margin-bottom: 6px;
+    }
+    .input-group input {
+      width: 100%; padding: 11px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; color: var(--text);
+      font-family: 'Barlow', sans-serif; font-size: 14px;
+      outline: none; transition: border-color 0.2s;
+    }
+    .input-group input:focus { border-color: var(--gold); }
+    .input-group input::placeholder { color: var(--text-dim); }
+    .input-code {
+      text-transform: uppercase; letter-spacing: 3px;
+      font-family: 'Barlow Condensed', sans-serif !important;
+      font-size: 16px !important; font-weight: 700 !important;
+    }
+
+    .btn-primary {
+      width: 100%; padding: 13px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border: none; border-radius: 8px; color: #0A0E1A;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-blue {
+      background: linear-gradient(135deg, #2563eb, #3B82F6) !important;
+      color: #fff !important;
+    }
+
+    .msg { font-size: 12px; padding: 8px 12px; border-radius: 6px; margin-top: 10px; display: none; }
+    .msg.error { background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.4); color: #ff6b6b; display: block; }
+    .msg.success { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; display: block; }
+    .msg.info { background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); color: #60a5fa; display: block; }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: flex; justify-content: center; gap: 40px;
+      padding: 20px 40px;
+      border-top: 1px solid var(--glass-border);
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 32px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 11px;
+      letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase;
+    }
+
+    /* LOADER */
+    .spinner {
+      width: 20px; height: 20px; border: 2px solid rgba(0,0,0,0.2);
+      border-top-color: #0A0E1A; border-radius: 50%;
+      animation: spin 0.6s linear infinite; display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(6px); z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--dark2);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px; padding: 40px;
+      max-width: 400px; width: 90%;
+      transform: translateY(20px); transition: transform 0.3s;
+      position: relative;
+    }
+    .modal-overlay.active .modal { transform: translateY(0); }
+    .modal h3 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; margin-bottom: 8px; }
+    .modal p { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; }
+
+    /* LOADING SCREEN */
+    #loading-screen {
+      position: fixed; inset: 0; background: var(--dark);
+      z-index: 200; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+      transition: opacity 0.5s;
+    }
+    #loading-screen.hidden { opacity: 0; pointer-events: none; }
+    .loading-logo { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 8px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .loading-bar-wrap { width: 200px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+    .loading-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); width: 0%; transition: width 0.3s; border-radius: 2px; }
+
+    @media (max-width:600px) {
+      header { padding: 16px 20px; }
+      .hero { padding: 40px 16px; }
+      .card { min-width: 100%; }
+      .stats-bar { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading-screen">
+  <div class="loading-logo">FIFA 2026</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;letter-spacing:4px;font-size:13px;color:var(--text-dim);">CARGANDO QUINIELA</div>
+  <div class="loading-bar-wrap"><div class="loading-bar" id="load-bar"></div></div>
+</div>
+
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="hex-bg"></div>
+
+<div class="page">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">⚽</div>
+      <div>
+        <div class="logo-text">Quiniela</div>
+        <div class="logo-sub">Mundial 2026</div>
+      </div>
+    </div>
+    <div class="header-nav">
+      <button class="btn-outline" onclick="document.getElementById('ranking-modal').classList.add('active')">🏆 Ranking</button>
+      <button class="btn-outline" id="btn-admin-nav" onclick="window.location.href='admin.html'" style="display:none">⚙️ Admin</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-badge"><span></span> FIFA World Cup</div>
+    <h1>QUINIELA</h1>
+    <div class="hero-year">2026</div>
+    <p>Predice los resultados del Mundial FIFA 2026. Registra tu quiniela, compite con amigos y sigue el ranking en tiempo real.</p>
+
+    <div class="cards">
+      <!-- Card Participante -->
+      <div class="card">
+        <div class="card-icon blue">🎯</div>
+        <h3>Participar</h3>
+        <p>Ingresa tu código único para registrarte y capturar tus pronósticos.</p>
+        <div class="input-group">
+          <label>Código de Acceso</label>
+          <input type="text" id="inp-codigo" class="input-code" placeholder="QUI-XXXXX" maxlength="10" />
+        </div>
+        <button class="btn-primary btn-blue" id="btn-participar" onclick="validarCodigo()">Ingresar →</button>
+        <div class="msg" id="msg-codigo"></div>
+      </div>
+
+      <!-- Card Admin -->
+      <div class="card">
+        <div class="card-icon gold">🔐</div>
+        <h3>Administrador</h3>
+        <p>Acceso exclusivo para administradores. Gestiona partidos, resultados y códigos.</p>
+        <div class="input-group">
+          <label>Correo</label>
+          <input type="email" id="inp-email" placeholder="admin@ejemplo.com" />
+        </div>
+        <div class="input-group">
+          <label>Contraseña</label>
+          <input type="password" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')loginAdmin()" />
+        </div>
+        <button class="btn-primary" id="btn-login" onclick="loginAdmin()">Ingresar como Admin</button>
+        <div class="msg" id="msg-login"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">48</div><div class="stat-label">Selecciones</div></div>
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Grupos</div></div>
+    <div class="stat"><div class="stat-num">104</div><div class="stat-label">Partidos</div></div>
+    <div class="stat"><div class="stat-num" id="stat-participantes">—</div><div class="stat-label">Participantes</div></div>
+    <div class="stat"><div class="stat-num" id="stat-lider">—</div><div class="stat-label">Líder</div></div>
+  </div>
+</div>
+
+<!-- Ranking Modal -->
+<div class="modal-overlay" id="ranking-modal" onclick="if(event.target===this)this.classList.remove('active')">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('ranking-modal').classList.remove('active')">✕</button>
+    <h3>🏆 Top 10</h3>
+    <p>Ranking general de participantes</p>
+    <div id="ranking-list" style="display:flex;flex-direction:column;gap:8px;">
+      <div style="color:var(--text-dim);font-size:13px;text-align:center;padding:20px">Cargando ranking...</div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, query, orderBy, limit, getDocs, setDoc, where } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDPJfVaQZmP9c049NnJoUwmWFfrG8GwTdA",
+  authDomain: "quiniela-37ac8.firebaseapp.com",
+  projectId: "quiniela-37ac8",
+  storageBucket: "quiniela-37ac8.firebasestorage.app",
+  messagingSenderId: "880815104500",
+  appId: "1:880815104500:web:d7d08ae509f384795a59a1",
+  measurementId: "G-BHWGPQH7VZ"
+};
+
+// ── ADMIN HARDCODEADO ─────────────────────────────────
+const ADMIN_EMAIL = 'camlosnochemala@hotmail.com';
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window._db = db;
+window._auth = auth;
+
+// Loading animation
+const bar = document.getElementById('load-bar');
+let prog = 0;
+const iv = setInterval(()=>{ prog = Math.min(prog+15, 90); bar.style.width=prog+'%'; }, 200);
+
+onAuthStateChanged(auth, async (user) => {
+  clearInterval(iv);
+  bar.style.width = '100%';
+  setTimeout(()=>{ document.getElementById('loading-screen').classList.add('hidden'); }, 400);
+
+  if (user) {
+    // Si el correo es el admin hardcodeado, mostrar botón admin
+    if (user.email === ADMIN_EMAIL) {
+      document.getElementById('btn-admin-nav').style.display = 'block';
+      // Guardar adminEmail en localStorage para admin.html
+      localStorage.setItem('adminEmail', user.email);
+    } else {
+      // También verificar en Firestore por si hay otros admins
+      try {
+        const uDoc = await getDoc(doc(db, 'usuarios', user.uid));
+        if (uDoc.exists() && uDoc.data().role === 'admin') {
+          document.getElementById('btn-admin-nav').style.display = 'block';
+          localStorage.setItem('adminEmail', user.email);
+        }
+      } catch(e) {}
+    }
+  } else {
+    // Si no hay usuario logueado, limpiar adminEmail del localStorage
+    localStorage.removeItem('adminEmail');
+  }
+  loadStats();
+  loadRanking();
+});
+
+async function loadStats() {
+  try {
+    const snap = await getDocs(collection(db, 'participantes'));
+    document.getElementById('stat-participantes').textContent = snap.size || '0';
+
+    const q = query(collection(db, 'participantes'), orderBy('puntos','desc'), limit(1));
+    const top = await getDocs(q);
+    if (!top.empty) {
+      const l = top.docs[0].data();
+      document.getElementById('stat-lider').textContent = l.nombre.split(' ')[0];
+    } else {
+      document.getElementById('stat-lider').textContent = '—';
+    }
+  } catch(e) {}
+}
+
+async function loadRanking() {
+  try {
+    const q = query(collection(db, 'participantes'), orderBy('puntos','desc'), limit(10));
+    const snap = await getDocs(q);
+    const container = document.getElementById('ranking-list');
+    if (snap.empty) {
+      container.innerHTML = '<div style="color:var(--text-dim);font-size:13px;text-align:center;padding:20px">Sin participantes aún</div>';
+      return;
+    }
+    container.innerHTML = '';
+    const medals = ['🥇','🥈','🥉'];
+    snap.docs.forEach((d, i) => {
+      const p = d.data();
+      const el = document.createElement('div');
+      el.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:8px;border:1px solid rgba(255,255,255,0.07)';
+      el.innerHTML = `
+        <span style="font-size:18px">${medals[i] || `<span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--text-dim)">${i+1}</span>`}</span>
+        <span style="flex:1;font-family:'Barlow Condensed',sans-serif;font-size:15px">${p.nombre}</span>
+        <span style="font-family:'Bebas Neue',sans-serif;font-size:20px;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent">${p.puntos || 0}</span>
+      `;
+      container.appendChild(el);
+    });
+  } catch(e) {}
+}
+
+window.loginAdmin = async function() {
+  const email = document.getElementById('inp-email').value.trim();
+  const pass = document.getElementById('inp-pass').value;
+  const msgEl = document.getElementById('msg-login');
+  const btn = document.getElementById('btn-login');
+  msgEl.className = 'msg';
+
+  if (!email || !pass) { showMsg(msgEl,'Ingresa correo y contraseña','error'); return; }
+
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+
+    // ── ADMIN HARDCODEADO: si el correo es camlosnochemala@hotmail.com, acceso directo ──
+    if (cred.user.email === ADMIN_EMAIL) {
+      // Guardar adminEmail en localStorage para que admin.html lo reconozca
+      localStorage.setItem('adminEmail', cred.user.email);
+      
+      // Guardar/actualizar rol de admin en Firestore silenciosamente
+      try {
+        await setDoc(doc(db, 'usuarios', cred.user.uid), {
+          email: cred.user.email,
+          role: 'admin',
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+      } catch(e) {}
+      showMsg(msgEl,'Acceso concedido. Redirigiendo...','success');
+      setTimeout(()=>{ window.location.href = 'admin.html'; }, 800);
+      return;
+    }
+
+    // Para otros correos: verificar rol en Firestore
+    const uDoc = await getDoc(doc(db, 'usuarios', cred.user.uid));
+    if (!uDoc.exists() || uDoc.data().role !== 'admin') {
+      await auth.signOut();
+      localStorage.removeItem('adminEmail');
+      showMsg(msgEl,'No tienes permisos de administrador','error');
+    } else {
+      localStorage.setItem('adminEmail', cred.user.email);
+      showMsg(msgEl,'Acceso concedido. Redirigiendo...','success');
+      setTimeout(()=>{ window.location.href = 'admin.html'; }, 800);
+    }
+  } catch(e) {
+    let msg = 'Error al iniciar sesión';
+    if (e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password') msg = 'Credenciales incorrectas';
+    if (e.code === 'auth/user-not-found') msg = 'Usuario no encontrado';
+    if (e.code === 'auth/too-many-requests') msg = 'Demasiados intentos. Intenta más tarde';
+    showMsg(msgEl, msg, 'error');
+  } finally {
+    btn.innerHTML = 'Ingresar como Admin';
+    btn.disabled = false;
+  }
+};
+
+window.validarCodigo = async function() {
+  const codigo = document.getElementById('inp-codigo').value.trim().toUpperCase();
+  const msgEl = document.getElementById('msg-codigo');
+  const btn = document.getElementById('btn-participar');
+  msgEl.className = 'msg';
+
+  if (!codigo || codigo.length < 6) { showMsg(msgEl,'Ingresa un código válido','error'); return; }
+
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+
+  try {
+    const cRef = doc(db, 'codigos', codigo);
+    const cDoc = await getDoc(cRef);
+
+    if (!cDoc.exists()) { showMsg(msgEl,'Código no encontrado','error'); return; }
+    const data = cDoc.data();
+    if (!data.activo) { showMsg(msgEl,'Este código está inactivo','error'); return; }
+
+    const FECHA_LIMITE = new Date('2026-06-11T13:00:00-06:00');
+    const ahora = new Date();
+    const storedKey = 'quinielaParticipante_' + codigo;
+    const yaRegistrado = !!localStorage.getItem(storedKey);
+
+    if (data.quinielasUsadas >= data.quinielasPermitidas) {
+      if (yaRegistrado) {
+        showMsg(msgEl,'Bienvenido de vuelta. Redirigiendo...','success');
+        setTimeout(()=>{ window.location.href = `quiniela.html?codigo=${codigo}`; }, 600);
+        return;
+      }
+      if (ahora < FECHA_LIMITE) {
+        showMsg(msgEl,'Este código alcanzó el límite de participantes','error'); return;
+      }
+      showMsg(msgEl,'El torneo ya comenzó. Entrando como espectador...','success');
+      setTimeout(()=>{ window.location.href = `quiniela.html?codigo=${codigo}&readonly=1`; }, 600);
+      return;
+    }
+
+    showMsg(msgEl,'Código válido. Redirigiendo...','success');
+    setTimeout(()=>{ window.location.href = `quiniela.html?codigo=${codigo}`; }, 600);
+  } catch(e) {
+    showMsg(msgEl, 'Error al validar código', 'error');
+  } finally {
+    btn.innerHTML = 'Ingresar →';
+    btn.disabled = false;
+  }
+};
+
+function showMsg(el, text, type) {
+  el.textContent = text;
+  el.className = 'msg ' + type;
+}
+
+// Format code input
+document.getElementById('inp-codigo').addEventListener('input', function(e) {
+  let v = e.target.value.replace(/[^a-zA-Z0-9-]/g,'').toUpperCase();
+  e.target.value = v;
+});
+</script>
+</body>
+</html>
