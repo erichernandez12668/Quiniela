@@ -136,16 +136,16 @@
       font-family: 'Barlow', sans-serif; font-weight: 300;
     }
 
-    /* CARDS CONTAINER */
+    /* CARDS CONTAINER — single centered card */
     .cards {
       display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
-      width: 100%; max-width: 800px;
+      width: 100%; max-width: 480px;
     }
     .card {
-      flex: 1; min-width: 280px; max-width: 360px;
+      flex: 1; min-width: 320px; max-width: 480px;
       background: var(--glass);
       border: 1px solid var(--glass-border);
-      border-radius: 16px; padding: 32px;
+      border-radius: 20px; padding: 44px 40px;
       backdrop-filter: blur(20px);
       transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
       position: relative; overflow: hidden;
@@ -161,19 +161,19 @@
       box-shadow: 0 20px 60px rgba(201,168,76,0.15);
     }
     .card-icon {
-      width: 52px; height: 52px; border-radius: 12px; margin-bottom: 18px;
-      display: flex; align-items: center; justify-content: center; font-size: 24px;
+      width: 60px; height: 60px; border-radius: 14px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: center; font-size: 28px;
     }
     .card-icon.gold { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3); }
     .card-icon.blue { background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); }
     .card h3 {
-      font-family: 'Barlow Condensed', sans-serif; font-size: 20px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 24px;
       font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
     }
-    .card p { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-bottom: 24px; }
+    .card p { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-bottom: 28px; }
 
     /* FORM ELEMENTS */
-    .input-group { position: relative; margin-bottom: 14px; }
+    .input-group { position: relative; margin-bottom: 16px; }
     .input-group label {
       display: block; font-size: 11px; letter-spacing: 2px;
       text-transform: uppercase; color: var(--text-dim);
@@ -181,11 +181,11 @@
       margin-bottom: 6px;
     }
     .input-group input {
-      width: 100%; padding: 11px 14px;
+      width: 100%; padding: 13px 16px;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 8px; color: var(--text);
-      font-family: 'Barlow', sans-serif; font-size: 14px;
+      font-family: 'Barlow', sans-serif; font-size: 15px;
       outline: none; transition: border-color 0.2s;
     }
     .input-group input:focus { border-color: var(--gold); }
@@ -193,15 +193,15 @@
     .input-code {
       text-transform: uppercase; letter-spacing: 3px;
       font-family: 'Barlow Condensed', sans-serif !important;
-      font-size: 16px !important; font-weight: 700 !important;
+      font-size: 18px !important; font-weight: 700 !important;
     }
 
     .btn-primary {
-      width: 100%; padding: 13px;
+      width: 100%; padding: 15px;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
       border: none; border-radius: 8px; color: #0A0E1A;
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 15px; font-weight: 700; letter-spacing: 2px;
+      font-size: 16px; font-weight: 700; letter-spacing: 2px;
       text-transform: uppercase; cursor: pointer;
       transition: opacity 0.2s, transform 0.2s;
     }
@@ -245,7 +245,7 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* MODAL */
+    /* MODAL (Ranking) */
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.8);
       backdrop-filter: blur(6px); z-index: 100;
@@ -266,6 +266,42 @@
     .modal p { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; }
     .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; }
 
+    /* ADMIN DIALOG */
+    dialog#admin-dialog {
+      background: var(--dark2);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 44px 40px;
+      max-width: 420px;
+      width: 90%;
+      color: var(--text);
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+    dialog#admin-dialog::backdrop {
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(6px);
+    }
+    dialog#admin-dialog .card-icon {
+      margin-bottom: 20px;
+    }
+    dialog#admin-dialog h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+    }
+    dialog#admin-dialog p {
+      font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-bottom: 28px;
+    }
+    dialog#admin-dialog .dialog-close {
+      position: absolute; top: 16px; right: 18px;
+      background: none; border: none; color: var(--text-dim);
+      font-size: 22px; cursor: pointer; transition: color 0.2s;
+    }
+    dialog#admin-dialog .dialog-close:hover { color: var(--gold); }
+
     /* LOADING SCREEN */
     #loading-screen {
       position: fixed; inset: 0; background: var(--dark);
@@ -281,8 +317,9 @@
     @media (max-width:600px) {
       header { padding: 16px 20px; }
       .hero { padding: 40px 16px; }
-      .card { min-width: 100%; }
+      .card { min-width: 100%; padding: 32px 24px; }
       .stats-bar { gap: 20px; }
+      dialog#admin-dialog { padding: 36px 24px; }
     }
   </style>
 </head>
@@ -312,7 +349,7 @@
     </div>
     <div class="header-nav">
       <button class="btn-outline" onclick="document.getElementById('ranking-modal').classList.add('active')">🏆 Ranking</button>
-      <button class="btn-outline" id="btn-admin-nav" onclick="window.location.href='admin.html'" style="display:none">⚙️ Admin</button>
+      <button class="btn-outline" id="btn-admin-nav" onclick="document.getElementById('admin-dialog').showModal()" style="display:none">⚙️ Admin</button>
     </div>
   </header>
 
@@ -323,7 +360,7 @@
     <p>Predice los resultados del Mundial FIFA 2026. Registra tu quiniela, compite con amigos y sigue el ranking en tiempo real.</p>
 
     <div class="cards">
-      <!-- Card Participante -->
+      <!-- Card Participante (única card) -->
       <div class="card">
         <div class="card-icon blue">🎯</div>
         <h3>Participar</h3>
@@ -334,23 +371,6 @@
         </div>
         <button class="btn-primary btn-blue" id="btn-participar" onclick="validarCodigo()">Ingresar →</button>
         <div class="msg" id="msg-codigo"></div>
-      </div>
-
-      <!-- Card Admin -->
-      <div class="card">
-        <div class="card-icon gold">🔐</div>
-        <h3>Administrador</h3>
-        <p>Acceso exclusivo para administradores. Gestiona partidos, resultados y códigos.</p>
-        <div class="input-group">
-          <label>Correo</label>
-          <input type="email" id="inp-email" placeholder="admin@ejemplo.com" />
-        </div>
-        <div class="input-group">
-          <label>Contraseña</label>
-          <input type="password" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')loginAdmin()" />
-        </div>
-        <button class="btn-primary" id="btn-login" onclick="loginAdmin()">Ingresar como Admin</button>
-        <div class="msg" id="msg-login"></div>
       </div>
     </div>
   </div>
@@ -375,6 +395,24 @@
     </div>
   </div>
 </div>
+
+<!-- Admin Dialog -->
+<dialog id="admin-dialog">
+  <button class="dialog-close" onclick="document.getElementById('admin-dialog').close()">✕</button>
+  <div class="card-icon gold">🔐</div>
+  <h3>Administrador</h3>
+  <p>Acceso exclusivo para administradores. Gestiona partidos, resultados y códigos.</p>
+  <div class="input-group">
+    <label>Correo</label>
+    <input type="email" id="inp-email" placeholder="admin@ejemplo.com" />
+  </div>
+  <div class="input-group">
+    <label>Contraseña</label>
+    <input type="password" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')loginAdmin()" />
+  </div>
+  <button class="btn-primary" id="btn-login" onclick="loginAdmin()">Ingresar como Admin</button>
+  <div class="msg" id="msg-login"></div>
+</dialog>
 
 <!-- Firebase -->
 <script type="module">
@@ -552,19 +590,24 @@ window.validarCodigo = async function() {
     const data = cDoc.data();
     if (!data.activo) { showMsg(msgEl,'Este código está inactivo','error'); return; }
 
-    const FECHA_LIMITE = new Date('2026-06-11T13:00:00-06:00');
+    const FECHA_LIMITE = new Date('2026-06-01T13:00:00-06:00');
     const ahora = new Date();
     const storedKey = 'quinielaParticipante_' + codigo;
     const yaRegistrado = !!localStorage.getItem(storedKey);
 
+    // Antes de la fecha límite: acceso completo siempre (sin importar cupos)
+    if (ahora < FECHA_LIMITE) {
+      showMsg(msgEl,'Código válido. Redirigiendo...','success');
+      setTimeout(()=>{ window.location.href = `quiniela.html?codigo=${codigo}`; }, 600);
+      return;
+    }
+
+    // Después de la fecha límite: lógica normal
     if (data.quinielasUsadas >= data.quinielasPermitidas) {
       if (yaRegistrado) {
         showMsg(msgEl,'Bienvenido de vuelta. Redirigiendo...','success');
         setTimeout(()=>{ window.location.href = `quiniela.html?codigo=${codigo}`; }, 600);
         return;
-      }
-      if (ahora < FECHA_LIMITE) {
-        showMsg(msgEl,'Este código alcanzó el límite de participantes','error'); return;
       }
       showMsg(msgEl,'El torneo ya comenzó. Entrando como espectador...','success');
       setTimeout(()=>{ window.location.href = `quiniela.html?codigo=${codigo}&readonly=1`; }, 600);

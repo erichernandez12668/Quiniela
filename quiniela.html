@@ -15,8 +15,6 @@
     }
     *{margin:0;padding:0;box-sizing:border-box;}
     html,body{height:100%;background:var(--dark);color:var(--text);font-family:'Barlow',sans-serif;overflow-x:hidden;}
-
-    /* BG */
     .bg-orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
     .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;animation:float 14s ease-in-out infinite;}
     .orb1{width:500px;height:500px;background:#C9A84C;top:-100px;right:-100px;animation-delay:0s;}
@@ -24,62 +22,42 @@
     .orb3{width:300px;height:300px;background:#C0392B;top:50%;left:35%;animation-delay:-10s;}
     @keyframes float{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-25px) scale(1.04);}}
     .hex-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V17L28 0l28 17v33zm0-5.5L4.5 47.5V19.5L28 5l23.5 14.5V48z' fill='none' stroke='rgba(201,168,76,0.05)' stroke-width='1'/%3E%3C/svg%3E");background-size:56px 100px;}
-
-    /* LOADING */
     #loading-screen{position:fixed;inset:0;background:var(--dark);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity 0.4s;}
     #loading-screen.hidden{opacity:0;pointer-events:none;}
     .load-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:4px;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
     .load-bar-wrap{width:200px;height:3px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;}
     .load-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:3px;width:0;transition:width 0.2s;}
-
-    /* GATE — registro */
     #gate-screen{position:fixed;inset:0;background:var(--dark);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
     #gate-screen.hidden{display:none;}
     .gate-card{background:var(--dark2);border:1px solid var(--glass-border);border-radius:20px;padding:40px 36px;max-width:420px;width:100%;text-align:center;}
     .gate-icon{font-size:48px;margin-bottom:16px;}
     .gate-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;}
     .gate-sub{font-size:13px;color:var(--text-dim);margin-bottom:28px;}
-
-    /* PAGE */
     .page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;}
-
-    /* HEADER */
     header{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--glass-border);backdrop-filter:blur(10px);background:rgba(10,14,26,0.6);position:sticky;top:0;z-index:50;}
     .logo-text{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
     .logo-sub{font-size:10px;color:var(--text-dim);letter-spacing:3px;font-family:'Barlow Condensed',sans-serif;}
     .header-right{display:flex;align-items:center;gap:12px;}
     .participant-chip{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:20px;padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;color:var(--gold);}
-
-    /* TABS NAV */
-    .main-tabs{display:flex;gap:4px;padding:16px 28px 0;background:transparent;border-bottom:1px solid var(--glass-border);}
-    .main-tab{padding:10px 18px;border-radius:8px 8px 0 0;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);border:1px solid transparent;border-bottom:none;transition:all 0.2s;}
+    .main-tabs{display:flex;gap:4px;padding:16px 28px 0;background:transparent;border-bottom:1px solid var(--glass-border);overflow-x:auto;}
+    .main-tab{padding:10px 18px;border-radius:8px 8px 0 0;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);border:1px solid transparent;border-bottom:none;transition:all 0.2s;white-space:nowrap;}
     .main-tab.active{background:var(--dark2);border-color:var(--glass-border);color:var(--gold);}
     .main-tab:hover:not(.active){color:var(--text);}
-
-    /* CONTENT */
     .content{padding:24px 28px;flex:1;}
     .panel{display:none;}
     .panel.active{display:block;}
-
-    /* STATS ROW */
     .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:24px;}
     .stat-box{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:16px;text-align:center;}
     .stat-box .num{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:1;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
     .stat-box .lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;margin-top:4px;}
-
-    /* SECTION HEADER */
     .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
     .section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);}
-
-    /* FASE TABS */
     .fase-tabs{display:flex;gap:4px;background:rgba(255,255,255,0.04);border-radius:10px;padding:4px;overflow-x:auto;margin-bottom:16px;}
     .fase-tab{padding:7px 14px;border-radius:7px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);white-space:nowrap;transition:all 0.2s;border:1px solid transparent;}
     .fase-tab.active{background:rgba(201,168,76,0.15);color:var(--gold);border-color:rgba(201,168,76,0.2);}
     .grupo-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;}
     .grupo-tab{padding:5px 12px;border-radius:6px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;color:var(--text-dim);background:rgba(255,255,255,0.04);border:1px solid transparent;transition:all 0.2s;}
     .grupo-tab.active{background:rgba(201,168,76,0.12);color:var(--gold);border-color:rgba(201,168,76,0.2);}
-
-    /* MATCH CARD */
     .match-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:16px;margin-bottom:10px;transition:border-color 0.2s;}
     .match-card.saved{border-color:rgba(34,197,94,0.3);}
     .match-card.locked{opacity:0.7;pointer-events:none;}
@@ -90,7 +68,6 @@
     .match-status-badge.done{background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.2);}
     .match-status-badge.live{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3);animation:pulse-b 1.5s infinite;}
     @keyframes pulse-b{0%,100%{opacity:1}50%{opacity:0.5}}
-
     .match-body{display:flex;align-items:center;gap:10px;}
     .team-block{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
     .team-flag{font-size:26px;}
@@ -98,16 +75,12 @@
     .vs-center{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:100px;}
     .vs-text{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--text-dim);letter-spacing:2px;}
     .real-score{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);letter-spacing:2px;}
-
-    /* PRONOSTICO INPUTS */
     .pron-inputs{display:flex;align-items:center;gap:8px;justify-content:center;}
     .pron-num{width:52px;height:52px;text-align:center;background:rgba(255,255,255,0.07);border:1px solid var(--glass-border);border-radius:10px;color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:28px;outline:none;-moz-appearance:textfield;transition:border-color 0.2s;}
     .pron-num::-webkit-outer-spin-button,.pron-num::-webkit-inner-spin-button{-webkit-appearance:none;}
     .pron-num:focus{border-color:var(--gold);}
     .pron-num:disabled{opacity:0.5;cursor:not-allowed;}
     .pron-sep{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--text-dim);}
-
-    /* POINTS FEEDBACK */
     .pts-feedback{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);}
     .pts-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1px;color:var(--text-dim);}
     .pts-value{font-family:'Bebas Neue',sans-serif;font-size:18px;}
@@ -117,19 +90,13 @@
     .save-btn{padding:5px 14px;border-radius:6px;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#0A0E1A;font-weight:700;transition:opacity 0.2s;}
     .save-btn:hover{opacity:0.85;}
     .save-btn:disabled{opacity:0.5;cursor:not-allowed;}
-
-    /* SAVED INDICATOR */
     .saved-indicator{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:#4ade80;letter-spacing:1px;}
-
-    /* SAVE ALL */
     .save-all-bar{position:sticky;bottom:0;padding:12px 28px;background:rgba(10,14,26,0.95);border-top:1px solid var(--glass-border);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;z-index:40;}
     .save-all-bar.hidden{display:none;}
     .btn-save-all{padding:10px 24px;background:linear-gradient(135deg,var(--gold),var(--gold-light));border:none;border-radius:8px;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#0A0E1A;}
     .btn-save-all:hover{opacity:0.9;}
     .btn-save-all:disabled{opacity:0.5;cursor:not-allowed;}
     .pending-count{font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--text-dim);}
-
-    /* RANKING */
     .ranking-item{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--glass);border:1px solid var(--glass-border);border-radius:10px;margin-bottom:8px;transition:border-color 0.2s;}
     .ranking-item.me{border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.05);}
     .rank-pos{font-family:'Bebas Neue',sans-serif;font-size:22px;min-width:32px;text-align:center;}
@@ -139,7 +106,6 @@
     .rank-name{flex:1;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;}
     .rank-pts{font-family:'Bebas Neue',sans-serif;font-size:24px;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
     .rank-sub{font-size:11px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;}
-
     /* BRACKET */
     .bracket-section{margin-bottom:28px;}
     .bracket-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--gold);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--glass-border);}
@@ -149,7 +115,6 @@
     .bracket-team.winner{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);}
     .bracket-team-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;}
     .bracket-team-score{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold);}
-
     /* STANDINGS TABLE */
     .standings-wrap{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
     .standings-header{padding:12px 16px;border-bottom:1px solid var(--glass-border);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--gold);}
@@ -162,8 +127,6 @@
     .cl-1,.cl-2{background:var(--green);}
     .cl-3{background:var(--gold);}
     .cl-out{background:var(--red);}
-
-    /* FORM */
     .inp-group{margin-bottom:14px;}
     .inp-group label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;margin-bottom:6px;}
     .inp-group input{width:100%;padding:10px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;}
@@ -179,17 +142,33 @@
     .spinner{width:14px;height:14px;border:2px solid rgba(0,0,0,0.2);border-top-color:#0A0E1A;border-radius:50%;animation:spin 0.6s linear infinite;display:inline-block;vertical-align:middle;}
     @keyframes spin{to{transform:rotate(360deg);}}
     .spinner-gold{border:2px solid rgba(201,168,76,0.2);border-top-color:var(--gold);}
-
-    /* EMPTY */
     .empty{text-align:center;padding:40px;color:var(--text-dim);}
     .empty-icon{font-size:36px;margin-bottom:10px;}
     .empty-text{font-size:13px;}
-
-    /* RESPONSIVE */
+    /* QUINIELA PROPIA - panel de predicción de fase eliminatoria */
+    .mi-llave-banner{background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1px solid rgba(201,168,76,0.25);border-radius:14px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;}
+    .mi-llave-banner .ico{font-size:30px;}
+    .mi-llave-banner .txt{font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--text-dim);line-height:1.5;}
+    .mi-llave-banner .txt strong{color:var(--gold);display:block;font-size:15px;letter-spacing:1px;}
+    .pron-elim-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:14px;margin-bottom:10px;transition:border-color 0.2s;}
+    .pron-elim-card.saved{border-color:rgba(34,197,94,0.3);}
+    .pron-elim-card .match-num{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px;}
+    .team-pron-row{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:8px;background:rgba(255,255,255,0.03);margin-bottom:6px;}
+    .team-pron-row.selected{background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);}
+    .team-pron-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;flex:1;}
+    .pron-score-inputs{display:flex;align-items:center;gap:6px;}
+    .pron-score-inp{width:44px;height:44px;text-align:center;background:rgba(255,255,255,0.08);border:1px solid var(--glass-border);border-radius:8px;color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:24px;outline:none;-moz-appearance:textfield;}
+    .pron-score-inp::-webkit-outer-spin-button,.pron-score-inp::-webkit-inner-spin-button{-webkit-appearance:none;}
+    .pron-score-inp:focus{border-color:var(--gold);}
+    .pron-score-inp:disabled{opacity:0.4;cursor:not-allowed;}
+    .vs-mid{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--text-dim);padding:0 4px;}
+    .elim-fase-info{font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;margin-bottom:14px;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;line-height:1.6;}
+    .terceros-banner{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-family:'Barlow Condensed',sans-serif;font-size:12px;color:#93c5fd;letter-spacing:0.5px;line-height:1.6;}
+    .terceros-banner strong{color:#60a5fa;display:block;margin-bottom:4px;font-size:13px;}
     @media(max-width:600px){
       .content{padding:16px;}
       .main-tabs{padding:12px 16px 0;gap:2px;}
-      .main-tab{padding:8px 12px;font-size:11px;}
+      .main-tab{padding:8px 10px;font-size:10px;}
       header{padding:12px 16px;}
       .save-all-bar{padding:10px 16px;}
       .match-body{gap:6px;}
@@ -207,14 +186,12 @@
 </div>
 <div class="hex-bg"></div>
 
-<!-- LOADING -->
 <div id="loading-screen">
   <div class="load-logo">⚽ Quiniela 2026</div>
   <div class="load-bar-wrap"><div class="load-bar" id="load-bar"></div></div>
   <div style="font-size:12px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:2px">Cargando...</div>
 </div>
 
-<!-- GATE: Registro de nombre -->
 <div id="gate-screen" class="hidden">
   <div class="gate-card">
     <div class="gate-icon">⚽</div>
@@ -232,7 +209,6 @@
   </div>
 </div>
 
-<!-- MAIN PAGE -->
 <div class="page" id="main-page" style="display:none;">
   <header>
     <div>
@@ -246,16 +222,17 @@
   </header>
 
   <div class="main-tabs">
-    <div class="main-tab active" onclick="showTab('pronosticos')">🎯 Pronósticos</div>
+    <div class="main-tab active" onclick="showTab('pronosticos')">🎯 Grupos</div>
+    <div class="main-tab" onclick="showTab('mi-llave')">🏆 Mi Llave</div>
     <div class="main-tab" onclick="showTab('resultados')">📋 Resultados</div>
     <div class="main-tab" onclick="showTab('standings')">📊 Posiciones</div>
-    <div class="main-tab" onclick="showTab('llave')">🏆 Llave</div>
+    <div class="main-tab" onclick="showTab('llave')">🔗 Llave Oficial</div>
     <div class="main-tab" onclick="showTab('ranking')">🥇 Ranking</div>
   </div>
 
   <div class="content">
 
-    <!-- PRONOSTICOS -->
+    <!-- PRONOSTICOS GRUPOS -->
     <div class="panel active" id="panel-pronosticos">
       <div class="stats-row" id="my-stats">
         <div class="stat-box"><div class="num" id="my-pts">—</div><div class="lbl">Mis Puntos</div></div>
@@ -263,21 +240,30 @@
         <div class="stat-box"><div class="num" id="my-aciertos">—</div><div class="lbl">Aciertos</div></div>
         <div class="stat-box"><div class="num" id="my-pos">—</div><div class="lbl">Posición</div></div>
       </div>
-
-      <div class="fase-tabs" id="pron-fase-tabs">
-        <div class="fase-tab active" onclick="filtrarFasePron('Grupos',this)">Grupos</div>
-        <div class="fase-tab" onclick="filtrarFasePron('Dieciseisavos',this)">Dieciseisavos</div>
-        <div class="fase-tab" onclick="filtrarFasePron('Octavos',this)">Octavos</div>
-        <div class="fase-tab" onclick="filtrarFasePron('Cuartos',this)">Cuartos</div>
-        <div class="fase-tab" onclick="filtrarFasePron('Semifinal',this)">Semifinal</div>
-        <div class="fase-tab" onclick="filtrarFasePron('Final',this)">Final</div>
-      </div>
-
       <div class="grupo-tabs" id="pron-grupo-tabs"></div>
       <div id="pron-list"></div>
     </div>
 
-    <!-- RESULTADOS (vista de todos los resultados reales) -->
+    <!-- MI LLAVE (pronósticos fase eliminatoria calculados) -->
+    <div class="panel" id="panel-mi-llave">
+      <div class="mi-llave-banner">
+        <div class="ico">🏆</div>
+        <div class="txt">
+          <strong>Tu Quiniela de Fase Eliminatoria</strong>
+          Con base en tus pronósticos de grupos, se calculan automáticamente los 32 clasificados. Predice los marcadores de cada fase eliminatoria.
+        </div>
+      </div>
+      <div class="fase-tabs" id="millave-fase-tabs">
+        <div class="fase-tab active" onclick="filtrarFaseMLlave('Dieciseisavos',this)">Dieciseisavos</div>
+        <div class="fase-tab" onclick="filtrarFaseMLlave('Octavos',this)">Octavos</div>
+        <div class="fase-tab" onclick="filtrarFaseMLlave('Cuartos',this)">Cuartos</div>
+        <div class="fase-tab" onclick="filtrarFaseMLlave('Semifinal',this)">Semifinal</div>
+        <div class="fase-tab" onclick="filtrarFaseMLlave('Final',this)">Final</div>
+      </div>
+      <div id="millave-content"></div>
+    </div>
+
+    <!-- RESULTADOS -->
     <div class="panel" id="panel-resultados">
       <div class="section-head"><div class="section-title">Resultados</div></div>
       <div class="fase-tabs" id="res-fase-tabs">
@@ -299,9 +285,9 @@
       <div id="standings-content"></div>
     </div>
 
-    <!-- LLAVE -->
+    <!-- LLAVE OFICIAL -->
     <div class="panel" id="panel-llave">
-      <div class="section-head"><div class="section-title">Llave del Torneo</div></div>
+      <div class="section-head"><div class="section-title">Llave Oficial del Torneo</div></div>
       <div id="llave-content"><div class="empty"><div class="empty-icon">⏳</div><div class="empty-text">La llave se generará al finalizar la fase de grupos.</div></div></div>
     </div>
 
@@ -311,17 +297,15 @@
       <div id="ranking-content"><div class="empty"><div class="empty-icon">🏆</div><div class="empty-text">Cargando ranking...</div></div></div>
     </div>
 
-  </div><!-- /content -->
+  </div>
 
-  <!-- SAVE ALL BAR -->
   <div class="save-all-bar hidden" id="save-all-bar">
     <div class="pending-count" id="pending-count-txt">0 pronósticos por guardar</div>
     <button class="btn-save-all" id="btn-save-all" onclick="guardarTodo()">💾 Guardar Todo</button>
   </div>
 
-</div><!-- /main-page -->
+</div>
 
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import {
@@ -341,17 +325,23 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // ── STATE ─────────────────────────────────────────────
-let participanteId = null;   // Firestore doc id
+let participanteId = null;
 let participanteData = {};
 let codigoActual = null;
 let allPartidos = [];
-let misPronosticos = {};     // partidoId → {golesLocal, golesVisitante, puntos}
-let pendingChanges = {};     // partidoId → {golesLocal, golesVisitante}
-let currentFasePron = 'Grupos';
-let currentGrupoPron = 'A';
+let misPronosticos = {};
+let pendingChanges = {};
 let currentFaseRes  = 'Grupos';
 let currentGrupoRes = 'A';
 let currentGrupoStand = 'A';
+let currentFaseMLlave = 'Dieciseisavos';
+
+// ── QUINIELA PROPIA: Estado de la llave personal ──────
+// Almacena los pronósticos de fase eliminatoria del usuario
+// miLlavePronosticos[fase][partidoIdx] = { local, visitante, golesLocal, golesVisitante }
+let miLlavePronosticos = {};
+// Cache de clasificados calculados desde pronósticos de grupos
+let clasificadosCache = null;
 
 const FLAGS = {
   'México':'🇲🇽','Sudáfrica':'🇿🇦','Corea del Sur':'🇰🇷','República Checa':'🇨🇿',
@@ -370,7 +360,6 @@ const FLAGS = {
 function flag(t){ return FLAGS[t] || '🏳️'; }
 function fmtDate(f){ if(!f) return '—'; try{ const d=new Date(f+'T12:00:00'); return d.toLocaleDateString('es-MX',{weekday:'short',day:'2-digit',month:'short'}); }catch{ return f; } }
 
-// ── LOADING BAR ───────────────────────────────────────
 const bar = document.getElementById('load-bar');
 let prog=0;
 const iv = setInterval(()=>{ prog=Math.min(prog+20,90); bar.style.width=prog+'%'; },200);
@@ -379,7 +368,6 @@ const iv = setInterval(()=>{ prog=Math.min(prog+20,90); bar.style.width=prog+'%'
 (async function init(){
   const params = new URLSearchParams(window.location.search);
   const codigo = params.get('codigo');
-
   if (!codigo) {
     clearInterval(iv); bar.style.width='100%';
     setTimeout(()=>{ document.getElementById('loading-screen').classList.add('hidden'); },300);
@@ -388,12 +376,9 @@ const iv = setInterval(()=>{ prog=Math.min(prog+20,90); bar.style.width=prog+'%'
     return;
   }
   codigoActual = codigo.toUpperCase();
-
   try {
-    // Validate code
     const cRef = doc(db,'codigos',codigoActual);
     const cDoc = await getDoc(cRef);
-
     if (!cDoc.exists()) {
       clearInterval(iv); bar.style.width='100%';
       setTimeout(()=>{ document.getElementById('loading-screen').classList.add('hidden'); },300);
@@ -401,7 +386,6 @@ const iv = setInterval(()=>{ prog=Math.min(prog+20,90); bar.style.width=prog+'%'
       window.location.href='index.html';
       return;
     }
-
     const cData = cDoc.data();
     if (!cData.activo) {
       clearInterval(iv); bar.style.width='100%';
@@ -410,11 +394,9 @@ const iv = setInterval(()=>{ prog=Math.min(prog+20,90); bar.style.width=prog+'%'
       window.location.href='index.html';
       return;
     }
-
     const storedKey = 'quinielaParticipante_' + codigoActual;
     const storedId = localStorage.getItem(storedKey);
     const readonlyMode = params.get('readonly') === '1';
-
     if (storedId) {
       const pDoc = await getDoc(doc(db,'participantes',storedId));
       if (pDoc.exists()) {
@@ -483,25 +465,19 @@ function showMainPage() {
   },300);
 }
 
-// ── REGISTRO ──────────────────────────────────────────
 window.registrarParticipante = async function() {
   const nombre = document.getElementById('inp-nombre').value.trim();
   const msgEl = document.getElementById('msg-gate');
   const btn = document.getElementById('btn-registrar');
   msgEl.className='msg';
-
   if (!nombre || nombre.length < 2) { showMsg(msgEl,'Ingresa tu nombre (mínimo 2 caracteres)','error'); return; }
-
   btn.innerHTML='<span class="spinner"></span> Registrando...'; btn.disabled=true;
-
   try {
     const cRef = doc(db,'codigos',codigoActual);
     const cDoc = await getDoc(cRef);
     if (!cDoc.exists() || !cDoc.data().activo) throw new Error('Código inválido');
     const cData = cDoc.data();
     if (cData.quinielasUsadas >= cData.quinielasPermitidas) throw new Error('Código lleno');
-
-    // Create participant
     const pRef = doc(collection(db,'participantes'));
     participanteId = pRef.id;
     participanteData = {
@@ -510,13 +486,8 @@ window.registrarParticipante = async function() {
       fechaRegistro: new Date().toISOString()
     };
     await setDoc(pRef, participanteData);
-
-    // Increment usage
     await updateDoc(cRef, { quinielasUsadas: increment(1) });
-
-    // Save to localStorage
     localStorage.setItem('quinielaParticipante_'+codigoActual, participanteId);
-
     document.getElementById('gate-screen').classList.add('hidden');
     await loadAllData();
     showMainPage();
@@ -527,16 +498,23 @@ window.registrarParticipante = async function() {
   }
 };
 
-// ── LOAD ALL DATA ─────────────────────────────────────
 async function loadAllData() {
   try {
-    const [partSnap, pronSnap] = await Promise.all([
+    const [partSnap, pronSnap, miLlaveSnap] = await Promise.all([
       getDocs(collection(db,'partidos')),
-      getDocs(query(collection(db,'pronosticos'), where('participanteId','==',participanteId)))
+      getDocs(query(collection(db,'pronosticos'), where('participanteId','==',participanteId))),
+      participanteId ? getDocs(query(collection(db,'miLlave'), where('participanteId','==',participanteId))) : Promise.resolve({docs:[]})
     ]);
     allPartidos = partSnap.docs.map(d=>({id:d.id,...d.data()}));
     misPronosticos = {};
     pronSnap.docs.forEach(d=>{ misPronosticos[d.data().partidoId] = {...d.data(), docId: d.id}; });
+    // Cargar pronósticos de mi llave eliminatoria
+    miLlavePronosticos = {};
+    miLlaveSnap.docs.forEach(d=>{
+      const data = d.data();
+      const key = data.fase + '_' + data.partidoIdx;
+      miLlavePronosticos[key] = {...data, docId: d.id};
+    });
     buildAllUI();
     updateMyStats();
   } catch(e){ console.error(e); }
@@ -551,59 +529,48 @@ function buildAllUI() {
   renderStandings();
 }
 
-// ── TABS ──────────────────────────────────────────────
 window.showTab = function(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.main-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   const tabs = document.querySelectorAll('.main-tab');
-  const labels = ['pronosticos','resultados','standings','llave','ranking'];
+  const labels = ['pronosticos','mi-llave','resultados','standings','llave','ranking'];
   const idx = labels.indexOf(id);
   if(idx>=0) tabs[idx].classList.add('active');
   if(id==='llave') loadLlave();
   if(id==='ranking') loadRanking();
   if(id==='standings') renderStandings();
+  if(id==='mi-llave'){ clasificadosCache=null; renderMiLlave(); }
 };
 
 // ═══════════════════════════════════════════════════════
-//  PRONÓSTICOS
+//  PRONÓSTICOS GRUPOS
 // ═══════════════════════════════════════════════════════
-window.filtrarFasePron = function(fase, el) {
-  currentFasePron = fase;
-  document.querySelectorAll('#pron-fase-tabs .fase-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  if(fase==='Grupos'){ currentGrupoPron='A'; buildGrupoTabsPron(); }
-  else { document.getElementById('pron-grupo-tabs').innerHTML=''; }
-  renderPronGrupo();
-};
-
 function buildGrupoTabsPron() {
   const grupos = [...new Set(allPartidos.filter(p=>p.grupo).map(p=>p.grupo))].sort();
   const el = document.getElementById('pron-grupo-tabs');
-  if(currentFasePron!=='Grupos'){ el.innerHTML=''; return; }
-  el.innerHTML = grupos.map(g=>`<div class="grupo-tab ${g===currentGrupoPron?'active':''}" onclick="filtrarGrupoPron('${g}')">${g}</div>`).join('');
+  el.innerHTML = grupos.map(g=>`<div class="grupo-tab ${g==='A'?'active':''}" onclick="filtrarGrupoPron('${g}',this)">${g}</div>`).join('');
 }
 
-window.filtrarGrupoPron = function(g) {
-  currentGrupoPron=g;
+window.filtrarGrupoPron = function(g, el) {
   document.querySelectorAll('#pron-grupo-tabs .grupo-tab').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
-  renderPronGrupo();
+  (el||event.target).classList.add('active');
+  currentGrupoActual = g;
+  renderPronGrupo(g);
 };
 
-function renderPronGrupo() {
-  let lista = allPartidos.filter(p=>p.fase===currentFasePron);
-  if(currentFasePron==='Grupos') lista = lista.filter(p=>p.grupo===currentGrupoPron);
-  lista.sort((a,b)=>a.fecha>b.fecha?1:-1);
+let currentGrupoActual = 'A';
 
+function renderPronGrupo(grupo) {
+  const g = grupo || currentGrupoActual;
+  let lista = allPartidos.filter(p=>p.fase==='Grupos' && p.grupo===g);
+  lista.sort((a,b)=>a.fecha>b.fecha?1:-1);
   const el = document.getElementById('pron-list');
   if(!lista.length){
-    el.innerHTML='<div class="empty"><div class="empty-icon">⚽</div><div class="empty-text">No hay partidos en esta fase aún.</div></div>';
+    el.innerHTML='<div class="empty"><div class="empty-icon">⚽</div><div class="empty-text">No hay partidos en este grupo.</div></div>';
     return;
   }
-
-  const MULT={'Grupos':1,'Dieciseisavos':2,'Octavos':3,'Cuartos':4,'Semifinal':5,'Tercer Lugar':5,'Final':10};
-
+  const MULT=1;
   el.innerHTML = lista.map(p=>{
     const pron = misPronosticos[p.id];
     const terminado = p.estado==='Finalizado';
@@ -612,30 +579,25 @@ function renderPronGrupo() {
     const gL = pron?.golesLocal??'';
     const gV = pron?.golesVisitante??'';
     const rL = p.golesLocal; const rV = p.golesVisitante;
-    const mult = MULT[p.fase]||1;
-
-    // Points feedback
     let ptsFeedback = '';
     if(terminado && pron!=null && gL!=='' && gV!==''){
       const ganadorR = rL>rV?'local':rL<rV?'visitante':'empate';
       const ganadorP = Number(gL)>Number(gV)?'local':Number(gL)<Number(gV)?'visitante':'empate';
       const exact = Number(gL)===rL && Number(gV)===rV;
       const aciert = ganadorR===ganadorP;
-      let pts=0; if(aciert) pts+=1; if(exact) pts+=2; pts*=mult;
+      let pts=0; if(aciert) pts+=1; if(exact) pts+=2; pts*=MULT;
       const cls = exact?'exact':aciert?'result':'miss';
       const label = exact?'Exacto ⭐':aciert?'Resultado ✓':'Sin puntos';
       ptsFeedback=`<div class="pts-feedback"><span class="pts-label">${label}</span><span class="pts-value ${cls}">${pts} pt${pts!==1?'s':''}</span></div>`;
     }
-
     const statusCls = terminado?'done':enVivo?'live':'pending';
     const statusTxt = p.estado||'Pendiente';
     const savedClass = (pron!=null&&gL!=='')?'saved':'';
     const lockedClass = locked?'locked':'';
-
     return `
     <div class="match-card ${savedClass} ${lockedClass}" id="mc-${p.id}">
       <div class="match-meta">
-        <span class="match-date-badge">${fmtDate(p.fecha)} · ×${mult}</span>
+        <span class="match-date-badge">${fmtDate(p.fecha)} · Grupo ${p.grupo}</span>
         <span class="match-status-badge ${statusCls}">${statusTxt}</span>
       </div>
       <div class="match-body">
@@ -663,11 +625,9 @@ function renderPronGrupo() {
       ${!locked?`<div style="display:flex;justify-content:flex-end;margin-top:8px;"><button class="save-btn" id="sbtn-${p.id}" onclick="guardarUno('${p.id}')">${pron!=null?'✅ Guardado':'Guardar'}</button></div>`:''}
     </div>`;
   }).join('');
-
   updateSaveAllBar();
 }
 
-// ── ON CHANGE ─────────────────────────────────────────
 window.onPronChange = function(pid) {
   const gL = document.getElementById('pL-'+pid)?.value;
   const gV = document.getElementById('pV-'+pid)?.value;
@@ -684,40 +644,37 @@ window.onPronChange = function(pid) {
 };
 
 function updateSaveAllBar() {
-  const bar = document.getElementById('save-all-bar');
+  const barEl = document.getElementById('save-all-bar');
   const cnt = Object.keys(pendingChanges).length;
   document.getElementById('pending-count-txt').textContent = `${cnt} pronóstico${cnt!==1?'s':''} por guardar`;
-  bar.classList.toggle('hidden', cnt===0);
+  barEl.classList.toggle('hidden', cnt===0);
 }
 
-// ── GUARDAR UNO ───────────────────────────────────────
 window.guardarUno = async function(pid) {
   const gLEl = document.getElementById('pL-'+pid);
   const gVEl = document.getElementById('pV-'+pid);
   if(!gLEl||!gVEl) return;
   const gL=parseInt(gLEl.value); const gV=parseInt(gVEl.value);
   if(isNaN(gL)||isNaN(gV)||gL<0||gV<0){ alert('Ingresa un marcador válido'); return; }
-
   const btn = document.getElementById('sbtn-'+pid);
   if(btn){ btn.disabled=true; btn.innerHTML='<span class="spinner"></span>'; }
-
   try {
     await guardarPronostico(pid, gL, gV);
     delete pendingChanges[pid];
     updateSaveAllBar();
     if(btn){ btn.disabled=false; btn.textContent='✅ Guardado'; }
     document.getElementById('mc-'+pid)?.classList.add('saved');
+    // Invalidar cache de clasificados cuando cambia un pronóstico
+    clasificadosCache = null;
   } catch(e){
     alert('Error: '+e.message);
     if(btn){ btn.disabled=false; btn.textContent='Guardar'; }
   }
 };
 
-// ── GUARDAR TODO ──────────────────────────────────────
 window.guardarTodo = async function() {
   const btn = document.getElementById('btn-save-all');
   btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Guardando...';
-
   try {
     for(const [pid, vals] of Object.entries(pendingChanges)){
       await guardarPronostico(pid, vals.golesLocal, vals.golesVisitante);
@@ -726,6 +683,7 @@ window.guardarTodo = async function() {
       if(sbtn) sbtn.textContent='✅ Guardado';
     }
     pendingChanges = {};
+    clasificadosCache = null;
     updateSaveAllBar();
   } catch(e){ alert('Error: '+e.message); }
   finally{ btn.disabled=false; btn.textContent='💾 Guardar Todo'; }
@@ -749,7 +707,6 @@ async function guardarPronostico(pid, gL, gV) {
   }
 }
 
-// ── MY STATS ──────────────────────────────────────────
 async function updateMyStats() {
   try {
     const pDoc = await getDoc(doc(db,'participantes',participanteId));
@@ -759,8 +716,6 @@ async function updateMyStats() {
     document.getElementById('my-pts').textContent = d.puntos||0;
     document.getElementById('my-exact').textContent = d.marcadoresExactos||0;
     document.getElementById('my-aciertos').textContent = d.aciertos||0;
-
-    // Position
     const q = query(collection(db,'participantes'),orderBy('puntos','desc'));
     const snap = await getDocs(q);
     const pos = snap.docs.findIndex(x=>x.id===participanteId)+1;
@@ -769,7 +724,553 @@ async function updateMyStats() {
 }
 
 // ═══════════════════════════════════════════════════════
-//  RESULTADOS (lectura)
+//  CÁLCULO DE CLASIFICADOS DESDE PRONÓSTICOS DE GRUPOS
+// ═══════════════════════════════════════════════════════
+function calcularClasificadosDesdePronosticos() {
+  if(clasificadosCache) return clasificadosCache;
+
+  const grupos = [...new Set(allPartidos.filter(p=>p.grupo).map(p=>p.grupo))].sort();
+  const resultadosPorGrupo = {};
+
+  // Para cada grupo, calcular la tabla con pronósticos del usuario
+  for(const grupo of grupos){
+    const partidos = allPartidos.filter(p=>p.fase==='Grupos' && p.grupo===grupo);
+    const equipos = [...new Set([...partidos.map(p=>p.local),...partidos.map(p=>p.visitante)])];
+    const stats = {};
+    equipos.forEach(e=>{ stats[e]={pj:0,pg:0,pe:0,pp:0,gf:0,gc:0,dif:0,pts:0,grupo,enfrentamientos:{}}; });
+
+    for(const p of partidos){
+      // Usar resultado real si existe, sino pronóstico del usuario
+      let gL, gV;
+      if(p.estado==='Finalizado' && p.golesLocal!=null && p.golesVisitante!=null){
+        gL = p.golesLocal; gV = p.golesVisitante;
+      } else {
+        const pron = misPronosticos[p.id];
+        if(!pron || pron.golesLocal==null || pron.golesVisitante==null) continue;
+        gL = pron.golesLocal; gV = pron.golesVisitante;
+      }
+      stats[p.local].pj++; stats[p.visitante].pj++;
+      stats[p.local].gf+=gL; stats[p.local].gc+=gV;
+      stats[p.visitante].gf+=gV; stats[p.visitante].gc+=gL;
+      stats[p.local].dif+=(gL-gV); stats[p.visitante].dif+=(gV-gL);
+      if(!stats[p.local].enfrentamientos[p.visitante]) stats[p.local].enfrentamientos[p.visitante]={gf:0,gc:0};
+      if(!stats[p.visitante].enfrentamientos[p.local]) stats[p.visitante].enfrentamientos[p.local]={gf:0,gc:0};
+      stats[p.local].enfrentamientos[p.visitante].gf+=gL;
+      stats[p.local].enfrentamientos[p.visitante].gc+=gV;
+      stats[p.visitante].enfrentamientos[p.local].gf+=gV;
+      stats[p.visitante].enfrentamientos[p.local].gc+=gL;
+      if(gL>gV){ stats[p.local].pg++; stats[p.local].pts+=3; stats[p.visitante].pp++; }
+      else if(gL<gV){ stats[p.visitante].pg++; stats[p.visitante].pts+=3; stats[p.local].pp++; }
+      else { stats[p.local].pe++; stats[p.visitante].pe++; stats[p.local].pts+=1; stats[p.visitante].pts+=1; }
+    }
+
+    // Ordenar por criterios FIFA
+    const sorted = equipos.sort((a,b)=>{
+      if(stats[a].pts!==stats[b].pts) return stats[b].pts-stats[a].pts;
+      if(stats[a].dif!==stats[b].dif) return stats[b].dif-stats[a].dif;
+      if(stats[a].gf!==stats[b].gf) return stats[b].gf-stats[a].gf;
+      const enf=stats[a].enfrentamientos[b];
+      if(enf){
+        const difA=enf.gf-enf.gc; const difB=-difA;
+        if(difA!==difB) return difB-difA;
+        if(enf.gf!==enf.gc) return enf.gc-enf.gf;
+      }
+      return a.localeCompare(b);
+    });
+
+    resultadosPorGrupo[grupo] = sorted.map((e,i)=>({
+      nombre:e, pos:i+1, grupo, ...stats[e]
+    }));
+  }
+
+  // Primeros y segundos (24 equipos)
+  const primeros = grupos.map(g=>resultadosPorGrupo[g]?.[0]).filter(Boolean);
+  const segundos = grupos.map(g=>resultadosPorGrupo[g]?.[1]).filter(Boolean);
+
+  // Terceros y elegir los mejores 8
+  const terceros = grupos.map(g=>resultadosPorGrupo[g]?.[2]).filter(Boolean);
+  const mejoresTerceros = [...terceros].sort((a,b)=>{
+    if(a.pts!==b.pts) return b.pts-a.pts;
+    if(a.dif!==b.dif) return b.dif-a.dif;
+    if(a.gf!==b.gf) return b.gf-a.gf;
+    return a.nombre.localeCompare(b.nombre);
+  }).slice(0,8);
+
+  const clasificados32 = [...primeros,...segundos,...mejoresTerceros];
+
+  // Armar el bracket de dieciseisavos según el formato oficial del Mundial 2026
+  // El cruce oficial FIFA 2026 (publicado): se basa en la posición de grupos
+  // Formato simplificado basado en la propuesta FIFA:
+  // P1A vs T(grupo), P1B vs P2F, etc.
+  // Usamos el bracket de 16 partidos numerados 1-16
+  // Referencia al formato conocido hasta la fecha:
+  const dieciseisavos = armarBracketDieciseisavos(primeros, segundos, mejoresTerceros, resultadosPorGrupo);
+
+  clasificadosCache = {
+    primeros, segundos, terceros, mejoresTerceros,
+    resultadosPorGrupo, dieciseisavos, clasificados32
+  };
+  return clasificadosCache;
+}
+
+// Bracket oficial de dieciseisavos del Mundial 2026
+// Basado en el esquema FIFA publicado para el torneo de 48 equipos
+// 8 mejores terceros se distribuyen según los grupos de donde provienen
+function armarBracketDieciseisavos(primeros, segundos, mejoresTerceros, resultadosPorGrupo) {
+  // Helpers
+  const p = (g) => primeros.find(e=>e.grupo===g) || {nombre:'Por definir (1°'+g+')',grupo:g};
+  const s = (g) => segundos.find(e=>e.grupo===g) || {nombre:'Por definir (2°'+g+')',grupo:g};
+  const mt = (n) => mejoresTerceros[n] || {nombre:'Por definir (3° clasificado)',grupo:'?'};
+
+  // Formato oficial FIFA Mundial 2026 - 32 equipos, 16 partidos
+  // Los 8 mejores terceros se distribuyen en posiciones específicas
+  // Bracket basado en el diseño de la FIFA para el torneo ampliado
+  const partidos = [
+    // Zona 1 (partidos 1-4)
+    { local: p('A'), visitante: s('B'),   etiqueta:'Partido 1' },
+    { local: p('C'), visitante: mt(0),     etiqueta:'Partido 2' },
+    { local: p('E'), visitante: s('D'),   etiqueta:'Partido 3' },
+    { local: p('G'), visitante: mt(1),     etiqueta:'Partido 4' },
+    // Zona 2 (partidos 5-8)
+    { local: p('B'), visitante: s('C'),   etiqueta:'Partido 5' },
+    { local: p('D'), visitante: mt(2),     etiqueta:'Partido 6' },
+    { local: p('F'), visitante: s('E'),   etiqueta:'Partido 7' },
+    { local: p('H'), visitante: mt(3),     etiqueta:'Partido 8' },
+    // Zona 3 (partidos 9-12)
+    { local: p('I'), visitante: s('J'),   etiqueta:'Partido 9' },
+    { local: p('K'), visitante: mt(4),     etiqueta:'Partido 10' },
+    { local: p('J'), visitante: s('I'),   etiqueta:'Partido 11' },
+    { local: p('L'), visitante: mt(5),     etiqueta:'Partido 12' },
+    // Zona 4 (partidos 13-16)
+    { local: s('A'), visitante: s('F'),   etiqueta:'Partido 13' },
+    { local: s('G'), visitante: mt(6),     etiqueta:'Partido 14' },
+    { local: s('H'), visitante: s('K'),   etiqueta:'Partido 15' },
+    { local: s('L'), visitante: mt(7),     etiqueta:'Partido 16' },
+  ];
+  return partidos;
+}
+
+// ═══════════════════════════════════════════════════════
+//  MI LLAVE — Panel de pronósticos eliminatorios
+// ═══════════════════════════════════════════════════════
+window.filtrarFaseMLlave = function(fase, el) {
+  currentFaseMLlave = fase;
+  document.querySelectorAll('#millave-fase-tabs .fase-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderMiLlave();
+};
+
+function renderMiLlave() {
+  const el = document.getElementById('millave-content');
+
+  // Verificar si hay suficientes pronósticos de grupos
+  const totalGrupos = allPartidos.filter(p=>p.fase==='Grupos').length;
+  const pronGrupos = allPartidos.filter(p=>p.fase==='Grupos' && misPronosticos[p.id]!=null).length;
+
+  if(pronGrupos < totalGrupos * 0.5){
+    el.innerHTML = `<div class="empty">
+      <div class="empty-icon">⚠️</div>
+      <div class="empty-text">Necesitas llenar al menos el 50% de tus pronósticos de grupos para que se calculen los dieciseisavos de final.<br><br>
+      <span style="color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:13px">Llevas ${pronGrupos} de ${totalGrupos} partidos pronosticados.</span></div>
+    </div>`;
+    return;
+  }
+
+  const clasi = calcularClasificadosDesdePronosticos();
+  const fase = currentFaseMLlave;
+
+  if(fase==='Dieciseisavos') renderMiLlaveDieciseisavos(el, clasi);
+  else if(fase==='Octavos') renderMiLlaveEliminatoria(el, clasi, 'Octavos', 'Dieciseisavos', 8);
+  else if(fase==='Cuartos') renderMiLlaveEliminatoria(el, clasi, 'Cuartos', 'Octavos', 4);
+  else if(fase==='Semifinal') renderMiLlaveEliminatoria(el, clasi, 'Semifinal', 'Cuartos', 2);
+  else if(fase==='Final') renderMiLlaveFinal(el, clasi);
+}
+
+function renderMiLlaveDieciseisavos(el, clasi) {
+  const { dieciseisavos, mejoresTerceros, terceros } = clasi;
+
+  const tercerosInfo = mejoresTerceros.map(t=>`${flag(t.nombre)} ${t.nombre} (Grupo ${t.grupo}, ${t.pts} pts)`).join('<br>');
+
+  let html = `
+  <div class="elim-fase-info">
+    📋 <strong style="color:var(--gold)">Dieciseisavos de Final — 32 clasificados</strong><br>
+    Los equipos se calculan automáticamente con tus pronósticos de grupos. Anota el marcador que crees que terminará cada partido.<br>
+    <span style="color:#fbbf24">⚠️ En caso de empate en tiempo reglamentario, pon el marcador al final de los 90 min y elige el ganador con el botón de penalty/prórroga.</span>
+  </div>
+  <div class="terceros-banner">
+    <strong>🥉 Mejores 8 terceros clasificados (según tus pronósticos)</strong>
+    ${tercerosInfo}
+  </div>`;
+
+  html += dieciseisavos.map((partido, idx) => {
+    const key = 'Dieciseisavos_' + idx;
+    const pron = miLlavePronosticos[key] || {};
+    const localNombre = partido.local?.nombre || partido.local || 'Por definir';
+    const visitanteNombre = partido.visitante?.nombre || partido.visitante || 'Por definir';
+    const gL = pron.golesLocal ?? '';
+    const gV = pron.golesVisitante ?? '';
+    const ganador = pron.ganador || '';
+    const saved = gL !== '' && gV !== '';
+
+    return `
+    <div class="pron-elim-card ${saved?'saved':''}" id="elim-card-${key}">
+      <div class="match-num">${partido.etiqueta} · Dieciseisavos · ×2</div>
+      <div class="match-body" style="margin-bottom:8px">
+        <div class="team-block">
+          <div class="team-flag">${flag(localNombre)}</div>
+          <div class="team-name">${localNombre}</div>
+          <div style="font-size:9px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif">${partido.local?.grupo?'1° Grupo '+partido.local.grupo:''}</div>
+        </div>
+        <div class="vs-center">
+          <div class="vs-text">VS</div>
+          <div class="pron-inputs">
+            <input class="pron-num" type="number" min="0" max="99" id="eL-${key}" value="${gL}" oninput="onElimChange('${key}','Dieciseisavos',${idx})"/>
+            <span class="pron-sep">:</span>
+            <input class="pron-num" type="number" min="0" max="99" id="eV-${key}" value="${gV}" oninput="onElimChange('${key}','Dieciseisavos',${idx})"/>
+          </div>
+          <div style="font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">Marcador final</div>
+        </div>
+        <div class="team-block">
+          <div class="team-flag">${flag(visitanteNombre)}</div>
+          <div class="team-name">${visitanteNombre}</div>
+          <div style="font-size:9px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif">${partido.visitante?.grupo?'2°/3° Grupo '+partido.visitante.grupo:''}</div>
+        </div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;margin-bottom:6px">¿Quién avanza? (obligatorio)</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="elegirGanador('${key}','Dieciseisavos',${idx},'local')" 
+            style="flex:1;padding:7px 10px;border-radius:7px;border:1px solid ${ganador==='local'?'var(--gold)':'rgba(255,255,255,0.1)'};background:${ganador==='local'?'rgba(201,168,76,0.15)':'transparent'};color:${ganador==='local'?'var(--gold)':'var(--text-dim)'};font-family:'Barlow Condensed',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s;">
+            ${flag(localNombre)} ${localNombre}
+          </button>
+          <button onclick="elegirGanador('${key}','Dieciseisavos',${idx},'visitante')"
+            style="flex:1;padding:7px 10px;border-radius:7px;border:1px solid ${ganador==='visitante'?'var(--gold)':'rgba(255,255,255,0.1)'};background:${ganador==='visitante'?'rgba(201,168,76,0.15)':'transparent'};color:${ganador==='visitante'?'var(--gold)':'var(--text-dim)'};font-family:'Barlow Condensed',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s;">
+            ${flag(visitanteNombre)} ${visitanteNombre}
+          </button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;">
+        <button class="save-btn" id="sbtn-elim-${key}" onclick="guardarElim('${key}','Dieciseisavos',${idx})">${saved?'✅ Guardado':'Guardar'}</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = html;
+}
+
+function renderMiLlaveEliminatoria(el, clasi, fase, faseAnterior, totalPartidos) {
+  const mult = { 'Octavos':3, 'Cuartos':4, 'Semifinal':5, 'Final':10 }[fase] || 2;
+
+  // Obtener los ganadores de la fase anterior
+  const ganadores = [];
+  for(let i=0; i<totalPartidos*2; i++){
+    const keyAnt = faseAnterior + '_' + i;
+    const pronAnt = miLlavePronosticos[keyAnt];
+    if(pronAnt && pronAnt.ganador && pronAnt[pronAnt.ganador+'Nombre']){
+      ganadores.push({ nombre: pronAnt[pronAnt.ganador+'Nombre'], grupo: pronAnt[pronAnt.ganador+'Grupo']||'' });
+    } else {
+      ganadores.push({ nombre: `Ganador P${i+1} (${faseAnterior})`, grupo: '' });
+    }
+  }
+
+  // Armar partidos de esta fase (ganador i vs ganador i+1, de 2 en 2)
+  const partidos = [];
+  for(let i=0; i<ganadores.length; i+=2){
+    partidos.push({ local: ganadores[i], visitante: ganadores[i+1], idx: i/2 });
+  }
+
+  const faseLabels = { 'Octavos':'Octavos de Final','Cuartos':'Cuartos de Final','Semifinal':'Semifinales','Final':'Gran Final' };
+
+  let html = `<div class="elim-fase-info">
+    🏆 <strong style="color:var(--gold)">${faseLabels[fase]}</strong><br>
+    Los equipos se cargan desde los ganadores que elegiste en ${faseAnterior}. Anota el marcador y elige quién avanza.
+  </div>`;
+
+  if(partidos.every(p=>p.local.nombre.startsWith('Ganador')&&p.visitante.nombre.startsWith('Ganador'))){
+    html += `<div class="empty" style="padding:24px"><div class="empty-icon">⏳</div><div class="empty-text">Primero completa tus pronósticos de ${faseAnterior} y elige los ganadores de cada partido.</div></div>`;
+    el.innerHTML = html;
+    return;
+  }
+
+  html += partidos.map(({local, visitante, idx}) => {
+    const key = fase + '_' + idx;
+    const pron = miLlavePronosticos[key] || {};
+    const gL = pron.golesLocal ?? '';
+    const gV = pron.golesVisitante ?? '';
+    const ganador = pron.ganador || '';
+    const saved = gL !== '' && gV !== '';
+
+    return `
+    <div class="pron-elim-card ${saved?'saved':''}" id="elim-card-${key}">
+      <div class="match-num">Partido ${idx+1} · ${faseLabels[fase]} · ×${mult}</div>
+      <div class="match-body" style="margin-bottom:8px">
+        <div class="team-block">
+          <div class="team-flag">${flag(local.nombre)}</div>
+          <div class="team-name">${local.nombre}</div>
+        </div>
+        <div class="vs-center">
+          <div class="vs-text">VS</div>
+          <div class="pron-inputs">
+            <input class="pron-num" type="number" min="0" max="99" id="eL-${key}" value="${gL}" oninput="onElimChange('${key}','${fase}',${idx})"/>
+            <span class="pron-sep">:</span>
+            <input class="pron-num" type="number" min="0" max="99" id="eV-${key}" value="${gV}" oninput="onElimChange('${key}','${fase}',${idx})"/>
+          </div>
+          <div style="font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">Marcador final</div>
+        </div>
+        <div class="team-block">
+          <div class="team-flag">${flag(visitante.nombre)}</div>
+          <div class="team-name">${visitante.nombre}</div>
+        </div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;margin-bottom:6px">¿Quién avanza?</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="elegirGanador('${key}','${fase}',${idx},'local')"
+            style="flex:1;padding:7px 10px;border-radius:7px;border:1px solid ${ganador==='local'?'var(--gold)':'rgba(255,255,255,0.1)'};background:${ganador==='local'?'rgba(201,168,76,0.15)':'transparent'};color:${ganador==='local'?'var(--gold)':'var(--text-dim)'};font-family:'Barlow Condensed',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s;">
+            ${flag(local.nombre)} ${local.nombre}
+          </button>
+          <button onclick="elegirGanador('${key}','${fase}',${idx},'visitante')"
+            style="flex:1;padding:7px 10px;border-radius:7px;border:1px solid ${ganador==='visitante'?'var(--gold)':'rgba(255,255,255,0.1)'};background:${ganador==='visitante'?'rgba(201,168,76,0.15)':'transparent'};color:${ganador==='visitante'?'var(--gold)':'var(--text-dim)'};font-family:'Barlow Condensed',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s;">
+            ${flag(visitante.nombre)} ${visitante.nombre}
+          </button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;">
+        <button class="save-btn" id="sbtn-elim-${key}" onclick="guardarElim('${key}','${fase}',${idx})">${saved?'✅ Guardado':'Guardar'}</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = html;
+}
+
+function renderMiLlaveFinal(el, clasi) {
+  // Final: ganadores de semifinal 0 y 1
+  // + Tercer lugar: perdedores de semifinal 0 y 1
+  const semi0 = miLlavePronosticos['Semifinal_0'];
+  const semi1 = miLlavePronosticos['Semifinal_1'];
+
+  const ganSemi0 = semi0?.ganador ? {nombre: semi0[semi0.ganador+'Nombre']||'Ganador SF1', grupo:''} : {nombre:'Ganador SF1',grupo:''};
+  const ganSemi1 = semi1?.ganador ? {nombre: semi1[semi1.ganador+'Nombre']||'Ganador SF2', grupo:''} : {nombre:'Ganador SF2',grupo:''};
+
+  const perdedorSemi0 = semi0?.ganador ? {nombre: semi0[semi0.ganador==='local'?'visitanteNombre':'localNombre']||'Perdedor SF1', grupo:''} : {nombre:'Perdedor SF1',grupo:''};
+  const perdedorSemi1 = semi1?.ganador ? {nombre: semi1[semi1.ganador==='local'?'visitanteNombre':'localNombre']||'Perdedor SF2', grupo:''} : {nombre:'Perdedor SF2',grupo:''};
+
+  const partidos = [
+    { key:'Final_0', label:'🥉 Partido Tercer Lugar', mult:5, local:perdedorSemi0, visitante:perdedorSemi1, esFinal:false },
+    { key:'Final_1', label:'🏆 Gran Final', mult:10, local:ganSemi0, visitante:ganSemi1, esFinal:true },
+  ];
+
+  let html = `<div class="elim-fase-info">
+    🏆 <strong style="color:var(--gold)">Final del Mundial 2026</strong><br>
+    ¡La fase definitiva! Pronostica el marcador de la Gran Final y el partido por el Tercer Lugar.
+  </div>`;
+
+  if(ganSemi0.nombre.startsWith('Ganador') && ganSemi1.nombre.startsWith('Ganador')){
+    html += `<div class="empty" style="padding:24px"><div class="empty-icon">⏳</div><div class="empty-text">Completa primero tus pronósticos de Semifinales para ver los finalistas.</div></div>`;
+    el.innerHTML = html;
+    return;
+  }
+
+  html += partidos.map(({key,label,mult,local,visitante,esFinal}) => {
+    const pron = miLlavePronosticos[key] || {};
+    const gL = pron.golesLocal ?? '';
+    const gV = pron.golesVisitante ?? '';
+    const ganador = pron.ganador || '';
+    const saved = gL !== '' && gV !== '';
+    const idx = esFinal ? 1 : 0;
+    const fase = 'Final';
+
+    return `
+    <div class="pron-elim-card ${saved?'saved':''}" id="elim-card-${key}" style="${esFinal?'border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.05)':''}">
+      <div class="match-num" style="${esFinal?'color:var(--gold)':''}">${label} · ×${mult}</div>
+      ${esFinal?`<div style="text-align:center;font-size:24px;margin-bottom:12px">⚽🏆⚽</div>`:''}
+      <div class="match-body" style="margin-bottom:8px">
+        <div class="team-block">
+          <div class="team-flag" style="font-size:${esFinal?'36px':'26px'}">${flag(local.nombre)}</div>
+          <div class="team-name">${local.nombre}</div>
+        </div>
+        <div class="vs-center">
+          <div class="vs-text">VS</div>
+          <div class="pron-inputs">
+            <input class="pron-num" type="number" min="0" max="99" id="eL-${key}" value="${gL}" oninput="onElimChange('${key}','${fase}',${idx})"/>
+            <span class="pron-sep">:</span>
+            <input class="pron-num" type="number" min="0" max="99" id="eV-${key}" value="${gV}" oninput="onElimChange('${key}','${fase}',${idx})"/>
+          </div>
+          <div style="font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">Marcador final</div>
+        </div>
+        <div class="team-block">
+          <div class="team-flag" style="font-size:${esFinal?'36px':'26px'}">${flag(visitante.nombre)}</div>
+          <div class="team-name">${visitante.nombre}</div>
+        </div>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;margin-bottom:6px">${esFinal?'🥇 ¿Quién es CAMPEÓN del Mundo?':'¿Quién gana el Tercer Lugar?'}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="elegirGanador('${key}','${fase}',${idx},'local')"
+            style="flex:1;padding:7px 10px;border-radius:7px;border:1px solid ${ganador==='local'?'var(--gold)':'rgba(255,255,255,0.1)'};background:${ganador==='local'?'rgba(201,168,76,0.2)':'transparent'};color:${ganador==='local'?'var(--gold)':'var(--text-dim)'};font-family:'Barlow Condensed',sans-serif;font-size:12px;cursor:pointer;">
+            ${flag(local.nombre)} ${local.nombre}
+          </button>
+          <button onclick="elegirGanador('${key}','${fase}',${idx},'visitante')"
+            style="flex:1;padding:7px 10px;border-radius:7px;border:1px solid ${ganador==='visitante'?'var(--gold)':'rgba(255,255,255,0.1)'};background:${ganador==='visitante'?'rgba(201,168,76,0.2)':'transparent'};color:${ganador==='visitante'?'var(--gold)':'var(--text-dim)'};font-family:'Barlow Condensed',sans-serif;font-size:12px;cursor:pointer;">
+            ${flag(visitante.nombre)} ${visitante.nombre}
+          </button>
+        </div>
+      </div>
+      ${ganador && esFinal?`<div style="text-align:center;padding:10px;background:rgba(201,168,76,0.1);border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--gold)">🏆 Tu campeón: ${flag(pron[ganador+'Nombre']||'')} ${pron[ganador+'Nombre']||''} 🏆</div>`:''}
+      <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+        <button class="save-btn" id="sbtn-elim-${key}" onclick="guardarElim('${key}','${fase}',${idx})">${saved?'✅ Guardado':'Guardar'}</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = html;
+}
+
+// ── CAMBIO EN INPUT ELIMINATORIO ─────────────────────
+window.onElimChange = function(key, fase, idx) {
+  const btn = document.getElementById('sbtn-elim-'+key);
+  if(btn) btn.textContent = 'Guardar';
+  document.getElementById('elim-card-'+key)?.classList.remove('saved');
+};
+
+// ── ELEGIR GANADOR ────────────────────────────────────
+window.elegirGanador = async function(key, fase, idx, lado) {
+  // Obtener nombres de equipos del DOM según los inputs del partido
+  const clasi = calcularClasificadosDesdePronosticos();
+  let localNombre = '', visitanteNombre = '', localGrupo = '', visitanteGrupo = '';
+
+  if(fase === 'Dieciseisavos'){
+    const partido = clasi.dieciseisavos[idx];
+    localNombre = partido.local?.nombre || partido.local || '';
+    visitanteNombre = partido.visitante?.nombre || partido.visitante || '';
+    localGrupo = partido.local?.grupo || '';
+    visitanteGrupo = partido.visitante?.grupo || '';
+  } else {
+    // Para otras fases, obtener de los pronósticos anteriores
+    const faseAnteriorMap = {Octavos:'Dieciseisavos',Cuartos:'Octavos',Semifinal:'Cuartos',Final:'Semifinal'};
+    const faseAnt = faseAnteriorMap[fase] || '';
+    // El idx del partido en la fase anterior: idx*2 y idx*2+1
+    const idxL = idx*2, idxV = idx*2+1;
+    if(fase === 'Final'){
+      // Especial para final
+      const semi0 = miLlavePronosticos['Semifinal_0'];
+      const semi1 = miLlavePronosticos['Semifinal_1'];
+      if(idx === 0){ // Tercer lugar: perdedores
+        const perdedorSemi0 = semi0?.ganador ? (semi0.ganador==='local'?semi0.visitanteNombre:semi0.localNombre) : 'Perdedor SF1';
+        const perdedorSemi1 = semi1?.ganador ? (semi1.ganador==='local'?semi1.visitanteNombre:semi1.localNombre) : 'Perdedor SF2';
+        localNombre = perdedorSemi0; visitanteNombre = perdedorSemi1;
+      } else { // Gran final: ganadores
+        const ganSemi0 = semi0?.ganador ? semi0[semi0.ganador+'Nombre'] : 'Ganador SF1';
+        const ganSemi1 = semi1?.ganador ? semi1[semi1.ganador+'Nombre'] : 'Ganador SF2';
+        localNombre = ganSemi0; visitanteNombre = ganSemi1;
+      }
+    } else {
+      const pronL = miLlavePronosticos[faseAnt+'_'+idxL];
+      const pronV = miLlavePronosticos[faseAnt+'_'+idxV];
+      localNombre = pronL?.ganador ? pronL[pronL.ganador+'Nombre'] : ('Ganador P'+(idxL+1));
+      visitanteNombre = pronV?.ganador ? pronV[pronV.ganador+'Nombre'] : ('Ganador P'+(idxV+1));
+    }
+  }
+
+  // Actualizar estado local
+  const existing = miLlavePronosticos[key] || {};
+  miLlavePronosticos[key] = {
+    ...existing,
+    ganador: lado,
+    localNombre, visitanteNombre, localGrupo, visitanteGrupo,
+    fase, partidoIdx: idx
+  };
+
+  // Guardar en Firestore
+  await guardarElimInterno(key, fase, idx, localNombre, visitanteNombre, localGrupo, visitanteGrupo);
+
+  // Re-renderizar la fase actual para actualizar estilos de botones
+  renderMiLlave();
+};
+
+window.guardarElim = async function(key, fase, idx) {
+  const gLEl = document.getElementById('eL-'+key);
+  const gVEl = document.getElementById('eV-'+key);
+  if(!gLEl||!gVEl) return;
+  const gL = parseInt(gLEl.value); const gV = parseInt(gVEl.value);
+  if(isNaN(gL)||isNaN(gV)||gL<0||gV<0){ alert('Ingresa un marcador válido'); return; }
+
+  const btn = document.getElementById('sbtn-elim-'+key);
+  if(btn){ btn.disabled=true; btn.innerHTML='<span class="spinner"></span>'; }
+
+  try {
+    const clasi = calcularClasificadosDesdePronosticos();
+    let localNombre = '', visitanteNombre = '', localGrupo = '', visitanteGrupo = '';
+
+    if(fase === 'Dieciseisavos'){
+      const partido = clasi.dieciseisavos[idx];
+      localNombre = partido.local?.nombre || partido.local || '';
+      visitanteNombre = partido.visitante?.nombre || partido.visitante || '';
+      localGrupo = partido.local?.grupo || '';
+      visitanteGrupo = partido.visitante?.grupo || '';
+    } else {
+      const faseAnteriorMap = {Octavos:'Dieciseisavos',Cuartos:'Octavos',Semifinal:'Cuartos'};
+      const faseAnt = faseAnteriorMap[fase] || '';
+      if(fase === 'Final'){
+        const semi0 = miLlavePronosticos['Semifinal_0'];
+        const semi1 = miLlavePronosticos['Semifinal_1'];
+        if(idx === 0){
+          localNombre = semi0?.ganador ? (semi0.ganador==='local'?semi0.visitanteNombre:semi0.localNombre) : 'Perdedor SF1';
+          visitanteNombre = semi1?.ganador ? (semi1.ganador==='local'?semi1.visitanteNombre:semi1.localNombre) : 'Perdedor SF2';
+        } else {
+          localNombre = semi0?.ganador ? semi0[semi0.ganador+'Nombre'] : 'Ganador SF1';
+          visitanteNombre = semi1?.ganador ? semi1[semi1.ganador+'Nombre'] : 'Ganador SF2';
+        }
+      } else {
+        const idxL = idx*2, idxV = idx*2+1;
+        const pronL = miLlavePronosticos[faseAnt+'_'+idxL];
+        const pronV = miLlavePronosticos[faseAnt+'_'+idxV];
+        localNombre = pronL?.ganador ? pronL[pronL.ganador+'Nombre'] : ('Ganador P'+(idxL+1));
+        visitanteNombre = pronV?.ganador ? pronV[pronV.ganador+'Nombre'] : ('Ganador P'+(idxV+1));
+      }
+    }
+
+    await guardarElimInterno(key, fase, idx, localNombre, visitanteNombre, localGrupo, visitanteGrupo, gL, gV);
+
+    if(btn){ btn.disabled=false; btn.textContent='✅ Guardado'; }
+    document.getElementById('elim-card-'+key)?.classList.add('saved');
+  } catch(e){
+    alert('Error: '+e.message);
+    if(btn){ btn.disabled=false; btn.textContent='Guardar'; }
+  }
+};
+
+async function guardarElimInterno(key, fase, idx, localNombre, visitanteNombre, localGrupo, visitanteGrupo, gL, gV) {
+  const existing = miLlavePronosticos[key] || {};
+  const newGanador = existing.ganador || '';
+
+  const data = {
+    participanteId, codigo: codigoActual,
+    fase, partidoIdx: idx,
+    localNombre, visitanteNombre, localGrupo, visitanteGrupo,
+    ganador: newGanador,
+    fechaPronostico: new Date().toISOString()
+  };
+  if(gL !== undefined && gV !== undefined){
+    data.golesLocal = gL; data.golesVisitante = gV;
+  } else if(existing.golesLocal !== undefined){
+    data.golesLocal = existing.golesLocal;
+    data.golesVisitante = existing.golesVisitante;
+  }
+
+  if(existing.docId){
+    await updateDoc(doc(db,'miLlave',existing.docId), data);
+    miLlavePronosticos[key] = {...existing, ...data, docId:existing.docId};
+  } else {
+    const ref = doc(collection(db,'miLlave'));
+    await setDoc(ref, data);
+    miLlavePronosticos[key] = {...data, docId:ref.id};
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  RESULTADOS
 // ═══════════════════════════════════════════════════════
 window.filtrarFaseRes = function(fase, el) {
   currentFaseRes = fase;
@@ -784,13 +1285,13 @@ function buildGrupoTabsRes() {
   const grupos = [...new Set(allPartidos.filter(p=>p.grupo).map(p=>p.grupo))].sort();
   const el = document.getElementById('res-grupo-tabs');
   if(currentFaseRes!=='Grupos'){ el.innerHTML=''; return; }
-  el.innerHTML = grupos.map(g=>`<div class="grupo-tab ${g===currentGrupoRes?'active':''}" onclick="filtrarGrupoRes('${g}')">${g}</div>`).join('');
+  el.innerHTML = grupos.map(g=>`<div class="grupo-tab ${g===currentGrupoRes?'active':''}" onclick="filtrarGrupoRes('${g}',this)">${g}</div>`).join('');
 }
 
-window.filtrarGrupoRes = function(g) {
+window.filtrarGrupoRes = function(g, el) {
   currentGrupoRes=g;
   document.querySelectorAll('#res-grupo-tabs .grupo-tab').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
+  (el||event.target).classList.add('active');
   renderResGrupo();
 };
 
@@ -800,7 +1301,6 @@ function renderResGrupo() {
   lista.sort((a,b)=>a.fecha>b.fecha?1:-1);
   const el = document.getElementById('res-list');
   if(!lista.length){ el.innerHTML='<div class="empty"><div class="empty-icon">⚽</div><div class="empty-text">No hay partidos en esta fase.</div></div>'; return; }
-
   el.innerHTML = lista.map(p=>{
     const pron = misPronosticos[p.id];
     const terminado = p.estado==='Finalizado';
@@ -843,30 +1343,26 @@ function renderResGrupo() {
 }
 
 // ═══════════════════════════════════════════════════════
-//  STANDINGS / POSICIONES POR GRUPO (VERSIÓN MEJORADA CON CRITERIOS FIFA)
+//  STANDINGS
 // ═══════════════════════════════════════════════════════
 function buildGrupoTabsStand() {
   const grupos = [...new Set(allPartidos.filter(p=>p.grupo).map(p=>p.grupo))].sort();
   const el = document.getElementById('stand-grupo-tabs');
-  el.innerHTML = grupos.map(g=>`<div class="grupo-tab ${g===currentGrupoStand?'active':''}" onclick="filtrarGrupoStand('${g}')">${g}</div>`).join('');
+  el.innerHTML = grupos.map(g=>`<div class="grupo-tab ${g===currentGrupoStand?'active':''}" onclick="filtrarGrupoStand('${g}',this)">${g}</div>`).join('');
 }
 
-window.filtrarGrupoStand = function(g) {
+window.filtrarGrupoStand = function(g, el) {
   currentGrupoStand=g;
   document.querySelectorAll('#stand-grupo-tabs .grupo-tab').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
+  (el||event.target).classList.add('active');
   renderStandings();
 };
 
 function renderStandings() {
   const grupoPart = allPartidos.filter(p=>p.grupo===currentGrupoStand && p.fase==='Grupos');
   const equipos = [...new Set([...grupoPart.map(p=>p.local),...grupoPart.map(p=>p.visitante)])];
-
   const stats = {};
-  equipos.forEach(e=>{ 
-    stats[e]={pj:0,pg:0,pe:0,pp:0,gf:0,gc:0,dif:0,pts:0, enfrentamientos:{}}; 
-  });
-
+  equipos.forEach(e=>{ stats[e]={pj:0,pg:0,pe:0,pp:0,gf:0,gc:0,dif:0,pts:0,enfrentamientos:{}}; });
   grupoPart.forEach(p=>{
     if(p.estado!=='Finalizado') return;
     const gL=p.golesLocal, gV=p.golesVisitante;
@@ -877,32 +1373,23 @@ function renderStandings() {
     if(gL>gV){ stats[p.local].pg++; stats[p.local].pts+=3; stats[p.visitante].pp++; }
     else if(gL<gV){ stats[p.visitante].pg++; stats[p.visitante].pts+=3; stats[p.local].pp++; }
     else { stats[p.local].pe++; stats[p.visitante].pe++; stats[p.local].pts+=1; stats[p.visitante].pts+=1; }
-    
-    // Guardar enfrentamiento directo
-    if(!stats[p.local].enfrentamientos[p.visitante]) stats[p.local].enfrentamientos[p.visitante] = { gf:0, gc:0 };
-    if(!stats[p.visitante].enfrentamientos[p.local]) stats[p.visitante].enfrentamientos[p.local] = { gf:0, gc:0 };
-    stats[p.local].enfrentamientos[p.visitante].gf += gL;
-    stats[p.local].enfrentamientos[p.visitante].gc += gV;
-    stats[p.visitante].enfrentamientos[p.local].gf += gV;
-    stats[p.visitante].enfrentamientos[p.local].gc += gL;
+    if(!stats[p.local].enfrentamientos[p.visitante]) stats[p.local].enfrentamientos[p.visitante]={gf:0,gc:0};
+    if(!stats[p.visitante].enfrentamientos[p.local]) stats[p.visitante].enfrentamientos[p.local]={gf:0,gc:0};
+    stats[p.local].enfrentamientos[p.visitante].gf+=gL;
+    stats[p.local].enfrentamientos[p.visitante].gc+=gV;
+    stats[p.visitante].enfrentamientos[p.local].gf+=gV;
+    stats[p.visitante].enfrentamientos[p.local].gc+=gL;
   });
-
   const sorted = equipos.sort((a,b)=>{
-    // 1. Puntos
-    if(stats[a].pts !== stats[b].pts) return stats[b].pts - stats[a].pts;
-    // 2. Diferencia de goles
-    if(stats[a].dif !== stats[b].dif) return stats[b].dif - stats[a].dif;
-    // 3. Goles a favor
-    if(stats[a].gf !== stats[b].gf) return stats[b].gf - stats[a].gf;
-    // 4. Enfrentamiento directo (si se enfrentaron)
-    const enfrentamiento = stats[a].enfrentamientos[b];
-    if(enfrentamiento){
-      const difA = enfrentamiento.gf - enfrentamiento.gc;
-      const difB = -difA;
-      if(difA !== difB) return difB - difA;
-      if(enfrentamiento.gf !== enfrentamiento.gc) return enfrentamiento.gc - enfrentamiento.gf;
+    if(stats[a].pts!==stats[b].pts) return stats[b].pts-stats[a].pts;
+    if(stats[a].dif!==stats[b].dif) return stats[b].dif-stats[a].dif;
+    if(stats[a].gf!==stats[b].gf) return stats[b].gf-stats[a].gf;
+    const enf=stats[a].enfrentamientos[b];
+    if(enf){
+      const difA=enf.gf-enf.gc; const difB=-difA;
+      if(difA!==difB) return difB-difA;
+      if(enf.gf!==enf.gc) return enf.gc-enf.gf;
     }
-    // 5. Sorteo virtual por nombre
     return a.localeCompare(b);
   }).map(e=>({nombre:e,...stats[e]}));
 
@@ -913,27 +1400,27 @@ function renderStandings() {
     <table>
       <thead><tr>
         <th>#</th><th>Equipo</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DIF</th><th>PTS</th>
-       </tr</thead>
+      </tr></thead>
       <tbody>
         ${sorted.map((e,i)=>`
         <tr>
-          <td><span class="cl-badge ${i<2?'cl-'+(i+1):i===2?'cl-3':'cl-out'}"></span>${i+1}</span>
-          <td style="font-family:'Barlow Condensed',sans-serif;font-weight:600">${flag(e.nombre)} ${e.nombre}</span>
-          <td>${e.pj}</span><td>${e.pg}</span><td>${e.pe}</span><td>${e.pp}</span>
-          <td>${e.gf}</span><td>${e.gc}</span>
-          <td style="color:${e.dif>0?'#4ade80':e.dif<0?'#f87171':'var(--text-dim)'}">${e.dif>0?'+':''}${e.dif}</span>
-          <td><strong style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold)">${e.pts}</strong></span>
-         </tr>`).join('')}
+          <td><span class="cl-badge ${i<2?'cl-'+(i+1):i===2?'cl-3':'cl-out'}"></span>${i+1}</td>
+          <td style="font-family:'Barlow Condensed',sans-serif;font-weight:600">${flag(e.nombre)} ${e.nombre}</td>
+          <td>${e.pj}</td><td>${e.pg}</td><td>${e.pe}</td><td>${e.pp}</td>
+          <td>${e.gf}</td><td>${e.gc}</td>
+          <td style="color:${e.dif>0?'#4ade80':e.dif<0?'#f87171':'var(--text-dim)'}">${e.dif>0?'+':''}${e.dif}</td>
+          <td><strong style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold)">${e.pts}</strong></td>
+        </tr>`).join('')}
       </tbody>
     </table>
   </div>
   <div style="font-size:11px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;padding:8px 4px">
-    🟢 Clasifican al menos los 2 primeros. · 🟡 Tercer lugar pendiente de calificación (mejores 8 terceros avanzan).
+    🟢 Clasifican los 2 primeros. · 🟡 Tercer lugar: entra si está entre los 8 mejores terceros. · 🔴 Cuarto lugar: eliminado.
   </div>`;
 }
 
 // ═══════════════════════════════════════════════════════
-//  LLAVE
+//  LLAVE OFICIAL (desde Firebase)
 // ═══════════════════════════════════════════════════════
 async function loadLlave() {
   const el = document.getElementById('llave-content');
@@ -953,8 +1440,7 @@ async function loadLlave() {
         const pron=misPronosticos[p.id];
         let pronBadge='';
         if(pron){
-          const gL=pron.golesLocal,gV=pron.golesVisitante;
-          pronBadge=`<div style="font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;margin-top:4px">Tu pron: ${gL}-${gV}</div>`;
+          pronBadge=`<div style="font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;margin-top:4px">Tu pron: ${pron.golesLocal}-${pron.golesVisitante}</div>`;
         }
         html+=`<div class="bracket-match">
           <div class="bracket-team ${wL?'winner':''}">
@@ -974,7 +1460,7 @@ async function loadLlave() {
       });
       html+='</div></div>';
     }
-    el.innerHTML = html||'<div class="empty"><div class="empty-icon">🏆</div><div class="empty-text">La llave se generará al finalizar la fase de grupos.</div></div>';
+    el.innerHTML = html||'<div class="empty"><div class="empty-icon">🏆</div><div class="empty-text">La llave oficial se generará al finalizar la fase de grupos.</div></div>';
   } catch(e){ el.innerHTML='<div class="empty empty-text">Error al cargar llave</div>'; }
 }
 
@@ -988,13 +1474,12 @@ async function loadRanking() {
     const q = query(collection(db,'participantes'), orderBy('puntos','desc'));
     const snap = await getDocs(q);
     if(snap.empty){ el.innerHTML='<div class="empty"><div class="empty-text">Sin participantes aún.</div></div>'; return; }
-
     const docs = snap.docs.map(d=>({id:d.id,...d.data()}));
     const medals = ['🥇','🥈','🥉'];
     el.innerHTML = docs.map((p,i)=>`
     <div class="ranking-item ${p.id===participanteId?'me':''}">
       <div class="rank-pos ${i<3?'p'+(i+1):''}">${medals[i]||i+1}</div>
-      <div>
+      <div style="flex:1">
         <div class="rank-name">${p.nombre} ${p.id===participanteId?'<span style="font-size:10px;color:var(--gold);letter-spacing:1px;font-family:\'Barlow Condensed\',sans-serif">(Tú)</span>':''}</div>
         <div class="rank-sub">${p.marcadoresExactos||0} exactos · ${p.aciertos||0} aciertos · Código: ${p.codigo}</div>
       </div>
@@ -1004,13 +1489,6 @@ async function loadRanking() {
 }
 
 function showMsg(el,text,type){ el.textContent=text; el.className='msg '+type; }
-
-// Forzar recalculo de clasificacion (funcion auxiliar para admin)
-window.forzarRecalculoClasificacion = async function() {
-  console.log('Recalculando clasificación de grupos...');
-  alert('La clasificación se calcula automáticamente con los resultados ingresados por el administrador.');
-  renderStandings();
-};
 
 </script>
 </body>

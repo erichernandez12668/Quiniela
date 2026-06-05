@@ -188,6 +188,31 @@
     .empty-icon{font-size:40px;margin-bottom:12px;}
     .empty-text{font-size:14px;}
 
+    /* CODE CARD DELETE BUTTON */
+    .code-card-delete {
+      position: absolute; bottom: 12px; right: 12px;
+      background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.3);
+      color: #ff6b6b; border-radius: 6px; padding: 4px 10px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 11px;
+      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+      opacity: 0; transition: opacity 0.2s, background 0.2s; z-index: 2;
+    }
+    .code-card:hover .code-card-delete { opacity: 1; }
+    .code-card-delete:hover { background: rgba(192,57,43,0.35) !important; }
+    .code-card-owner {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 12px;
+      color: var(--text-dim); letter-spacing: 1px; margin-top: 4px;
+      text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
+    }
+    .code-card-owner span { color: var(--text); }
+    .code-fill-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 10px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 11px;
+      letter-spacing: 1px; text-transform: uppercase; margin-left: 6px;
+    }
+    .code-fill-badge.full { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .code-fill-badge.partial { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+
     /* RESPONSIVE */
     @media(max-width:768px){
       .sidebar{transform:translateX(-100%);transition:transform 0.3s;}
@@ -344,7 +369,7 @@
       <div class="table-wrap">
         <div class="table-header"><span class="table-title">📋 Todos los Códigos</span></div>
         <table>
-          <thead><tr><th>Código</th><th>Permitidas</th><th>Usadas</th><th>Disponibles</th><th>Estado</th><th>Fecha</th><th>Acción</th></tr></thead>
+          <thead><tr><th>Código</th><th>Participante</th><th>Permitidas</th><th>Usadas</th><th>Disponibles</th><th>Estado</th><th>Llenado</th><th>Fecha</th><th>Acción</th></tr></thead>
           <tbody id="codigos-tbody"><tr><td colspan="7"><div class="empty">Cargando...</div></td></tr></tbody>
         </table>
       </div>
@@ -850,7 +875,7 @@ window.generarLlaveCompleta = async function() {
 };
 
 // Funciones para propagar ganadores a las siguientes rondas
-async function propagarGanadores(rondaActual, rondaSiguiente, numPartidosSiguiente) {
+async function propagarGanadores(rondaActual, rondaSiguiente, numPartidosSiguiente, silent=false) {
   const q = query(collection(db,'partidos'), where('fase','==',rondaActual), where('estado','==','Finalizado'));
   const snap = await getDocs(q);
   const ganadores = [];
@@ -895,7 +920,8 @@ async function propagarGanadores(rondaActual, rondaSiguiente, numPartidosSiguien
     });
   }
   await batch.commit();
-  alert(`Ganadores propagados a ${rondaSiguiente}`);
+  if (!silent) alert(`Ganadores propagados a ${rondaSiguiente}`);
+  else showSnackbar(`✅ ${rondaSiguiente} generado automáticamente`);
   loadLlave();
   loadPartidosPanel();
 }
@@ -980,6 +1006,8 @@ window.guardarResultado = async function() {
       });
       await calcularPuntosPartido(id, partido, gL, gV);
       showMsg(msgEl, '✅ Resultado final guardado y puntos calculados', 'success');
+      // Auto-verificar y propagar llave en cualquier fase
+      setTimeout(() => autoVerificarLlave(), 1500);
     }
 
     setTimeout(()=>{
@@ -996,6 +1024,51 @@ window.guardarResultado = async function() {
     btn.disabled = false;
   }
 };
+
+// ── AUTO-VERIFICAR LLAVE ──────────────────────────────
+async function autoVerificarLlave() {
+  try {
+    // Contar partidos de grupos finalizados
+    const gruposSnap = await getDocs(query(collection(db,'partidos'), where('fase','==','Grupos')));
+    const totalGrupos = gruposSnap.size;
+    const finalizadosGrupos = gruposSnap.docs.filter(d=>d.data().estado==='Finalizado').length;
+
+    if (totalGrupos > 0 && finalizadosGrupos === totalGrupos) {
+      // Todos los partidos de grupos están finalizados → generar llave automáticamente
+      const diecisSnap = await getDocs(query(collection(db,'partidos'), where('fase','==','Dieciseisavos')));
+      if (diecisSnap.empty) {
+        showSnackbar('🏆 Todos los grupos finalizados. Generando Dieciseisavos automáticamente...');
+        const clasificados = await obtenerClasificados32();
+        if (clasificados.todos.length >= 32) {
+          const dieciseisavos = await generarDieciseisavos(clasificados);
+          await guardarLlave(dieciseisavos);
+          showSnackbar(`✅ Dieciseisavos generados automáticamente (${dieciseisavos.length} partidos)`);
+          loadPartidosPanel();
+          loadLlave();
+        }
+      }
+    }
+
+    // Auto-propagar rondas eliminatorias
+    const faseMap = [
+      { fase: 'Dieciseisavos', siguiente: 'Octavos', num: 8 },
+      { fase: 'Octavos', siguiente: 'Cuartos', num: 4 },
+      { fase: 'Cuartos', siguiente: 'Semifinal', num: 2 },
+    ];
+    for (const { fase, siguiente, num } of faseMap) {
+      const faseSnap = await getDocs(query(collection(db,'partidos'), where('fase','==',fase)));
+      if (faseSnap.size > 0) {
+        const finalizados = faseSnap.docs.filter(d=>d.data().estado==='Finalizado').length;
+        if (finalizados === faseSnap.size) {
+          const sigSnap = await getDocs(query(collection(db,'partidos'), where('fase','==',siguiente)));
+          if (sigSnap.empty) {
+            await propagarGanadores(fase, siguiente, num, true);
+          }
+        }
+      }
+    }
+  } catch(e) { console.error('autoVerificarLlave:', e); }
+}
 
 async function calcularPuntosPartido(partidoId, partido, golesLocalReal, golesVisitanteReal) {
   const q = query(collection(db,'pronosticos'), where('partidoId','==',partidoId));
@@ -1104,41 +1177,74 @@ async function loadCodigos() {
     const cardsEl = document.getElementById('codigos-cards');
 
     if (snap.empty) {
-      tbody.innerHTML='</table><td colspan="7"><div class="empty"><div class="empty-icon">🔑</div><div class="empty-text">Sin códigos aún. Genera uno arriba.</div></div></td></tr>';
+      tbody.innerHTML='<tr><td colspan="8"><div class="empty"><div class="empty-icon">🔑</div><div class="empty-text">Sin códigos aún. Genera uno arriba.</div></div></td></tr>';
       cardsEl.innerHTML='';
       return;
     }
 
-    const docs = snap.docs.map(d=>({id:d.id,...d.data()}))
+    const codigos = snap.docs.map(d=>({id:d.id,...d.data()}))
       .sort((a,b) => new Date(b.fechaCreacion||0) - new Date(a.fechaCreacion||0));
 
-    cardsEl.innerHTML = docs.map(c => {
+    // Para cada código, buscar participante y calcular llenado de pronósticos
+    const TOTAL_PARTIDOS = 104; // 72 grupos + 16 dieciseisavos + 8 octavos + 4 cuartos + 2 semis + 1 tercero + 1 final
+    const enriched = await Promise.all(codigos.map(async c => {
+      // Buscar participante asociado
+      let participante = null;
+      try {
+        const partSnap = await getDocs(query(collection(db,'participantes'), where('codigo','==',c.codigo)));
+        if (!partSnap.empty) participante = partSnap.docs[0].data();
+      } catch(e){}
+
+      // Contar pronósticos llenados
+      let pronosticosCount = 0;
+      if (participante) {
+        try {
+          const pronSnap = await getDocs(query(collection(db,'pronosticos'), where('participanteId','==',partSnap?.docs?.[0]?.id || participante.id || '')));
+          pronosticosCount = pronSnap.size;
+        } catch(e){}
+      }
+
+      const pctLlenado = Math.min(100, Math.round((pronosticosCount / TOTAL_PARTIDOS) * 100));
+      const lleno = pctLlenado >= 100;
+
+      return { ...c, participante, pronosticosCount, pctLlenado, lleno };
+    }));
+
+    cardsEl.innerHTML = enriched.map(c => {
       const usadas = c.quinielasUsadas || 0;
       const pct = Math.round((usadas / c.quinielasPermitidas) * 100);
-      const lleno = usadas >= c.quinielasPermitidas;
-      const activo = c.activo && !lleno;
+      const codigoLleno = usadas >= c.quinielasPermitidas;
+      const activo = c.activo && !codigoLleno;
       const disponibles = c.quinielasPermitidas - usadas;
       const baseUrl = window.location.origin + window.location.pathname.replace('admin.html','');
       const link = `${baseUrl}quiniela.html?codigo=${c.codigo}`;
+      const nombreParticipante = c.participante?.nombre || 'Por definir';
+      const llenadoPron = c.lleno ? 'LLENO' : `${c.pctLlenado}%`;
       return `
-      <div class="code-card ${lleno?'full':''}" id="card-${c.codigo}" onclick="copiarCodigo('${c.codigo}','${link}','${c.codigo}')">
+      <div class="code-card ${codigoLleno?'full':''}" id="card-${c.codigo}" onclick="copiarCodigo('${c.codigo}','${link}','${c.codigo}')">
         <span class="code-copy-hint">📋 Copiar link</span>
         <div class="code-card-value">${c.codigo}</div>
-        <div class="code-card-bar"><div class="code-card-bar-fill ${lleno?'full':''}" style="width:${pct}%"></div></div>
+        <div class="code-card-owner">👤 <span>${nombreParticipante}</span></div>
+        <div class="code-card-bar"><div class="code-card-bar-fill ${codigoLleno?'full':''}" style="width:${pct}%"></div></div>
         <div class="code-card-meta">
-          <span class="badge ${activo?'active':lleno?'inactive':'inactive'}">${activo?'Activo':lleno?'Lleno':'Inactivo'}</span>
-          <span style="font-size:12px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif">${usadas}/${c.quinielasPermitidas} usados</span>
-          ${activo?`<span style="font-size:12px;color:var(--green);font-family:'Barlow Condensed',sans-serif">✓ ${disponibles} disponible${disponibles!==1?'s':''}</span>`:''}
+          <span class="badge ${activo?'active':codigoLleno?'inactive':'inactive'}">${activo?'Activo':codigoLleno?'Lleno':'Inactivo'}</span>
+          <span style="font-size:12px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif">${usadas}/${c.quinielasPermitidas} cupos</span>
+          <span class="code-fill-badge ${c.lleno?'full':'partial'}">
+            📋 ${llenadoPron}
+          </span>
         </div>
-        <div style="margin-top:10px;font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;word-break:break-all;opacity:0.6">${link}</div>
+        <div style="margin-top:10px;font-size:10px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;word-break:break-all;opacity:0.6;padding-bottom:32px">${link}</div>
+        <button class="code-card-delete" onclick="event.stopPropagation();eliminarCodigo('${c.id}','${c.codigo}')">🗑 Eliminar</button>
       </div>`;
     }).join('');
 
-    tbody.innerHTML = docs.map(c => {
+    tbody.innerHTML = enriched.map(c => {
       const usadas = c.quinielasUsadas || 0;
-      const lleno = usadas >= c.quinielasPermitidas;
-      const activo = c.activo && !lleno;
+      const codigoLleno = usadas >= c.quinielasPermitidas;
+      const activo = c.activo && !codigoLleno;
       const disponibles = c.quinielasPermitidas - usadas;
+      const nombreParticipante = c.participante?.nombre || 'Por definir';
+      const llenadoPron = c.lleno ? '✅ Lleno' : `${c.pctLlenado}%`;
       return `
       <tr>
         <td>
@@ -1146,20 +1252,52 @@ async function loadCodigos() {
             onclick="copiarCodigo('${c.codigo}','','${c.codigo}')" title="Clic para copiar">
             ${c.codigo}
           </span>
-        </span>
-        <tr>${c.quinielasPermitidas}</td>
+        </td>
+        <td style="font-size:13px;color:var(--text);font-family:'Barlow Condensed',sans-serif">${nombreParticipante}</td>
+        <td>${c.quinielasPermitidas}</td>
         <td>${usadas}</td>
         <td><strong style="color:${disponibles>0?'var(--green)':'var(--red)'}">${disponibles}</strong></td>
-        <td><span class="badge ${activo?'active':lleno?'inactive':'inactive'}">${activo?'Activo':lleno?'Lleno':'Inactivo'}</span></td>
+        <td><span class="badge ${activo?'active':codigoLleno?'inactive':'inactive'}">${activo?'Activo':codigoLleno?'Lleno':'Inactivo'}</span></td>
+        <td style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:${c.lleno?'var(--green)':'var(--gold)'}">${llenadoPron}</td>
         <td style="font-size:12px;color:var(--text-dim)">${c.fechaCreacion||'—'}</td>
         <td style="display:flex;gap:6px;flex-wrap:wrap;">
           <button class="btn btn-ghost btn-sm" onclick="copiarCodigo('${c.codigo}','','${c.codigo}')">📋 Copiar</button>
           <button class="btn ${c.activo?'btn-danger':'btn-green'} btn-sm" onclick="toggleCodigo('${c.id}',${!c.activo})">${c.activo?'Desactivar':'Activar'}</button>
+          <button class="btn btn-danger btn-sm" onclick="eliminarCodigo('${c.id}','${c.codigo}')">🗑</button>
         </td>
-      </table>`;
+      </tr>`;
     }).join('');
   } catch(e){ console.error(e); }
 }
+
+// ── ELIMINAR CÓDIGO ────────────────────────────────────
+window.eliminarCodigo = async function(id, codigo) {
+  if (!confirm(`¿Eliminar el código "${codigo}" y TODOS sus pronósticos asociados?\n\nEsta acción no se puede deshacer.`)) return;
+  try {
+    // 1. Buscar participante con este código
+    const partSnap = await getDocs(query(collection(db,'participantes'), where('codigo','==',codigo)));
+    const batch1 = writeBatch(db);
+
+    // 2. Eliminar pronósticos de cada participante
+    for (const partDoc of partSnap.docs) {
+      const pronSnap = await getDocs(query(collection(db,'pronosticos'), where('participanteId','==',partDoc.id)));
+      pronSnap.docs.forEach(d => batch1.delete(doc(db,'pronosticos',d.id)));
+      batch1.delete(doc(db,'participantes',partDoc.id));
+    }
+
+    // 3. Eliminar el código
+    batch1.delete(doc(db,'codigos',id));
+    await batch1.commit();
+
+    showSnackbar(`✅ Código ${codigo} y sus datos eliminados`);
+    loadCodigos();
+    loadDashboard();
+    loadParticipantes();
+    loadRankingAdmin();
+  } catch(e) {
+    alert('Error al eliminar: ' + e.message);
+  }
+};
 
 window.copiarCodigo = function(codigo, link, display) {
   const textToCopy = link || codigo;
