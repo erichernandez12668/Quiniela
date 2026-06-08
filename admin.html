@@ -829,13 +829,12 @@ async function generarDieciseisavos(clasificados) {
 // Guardar la llave generada en Firestore
 async function guardarLlave(partidos) {
   const batch = writeBatch(db);
-  for (let p of partidos) {
+  for (let [i, p] of partidos.entries()) {
     const id = `dieciseisavos-${p.local}-${p.visitante}`.toLowerCase().replace(/[^a-z0-9-]/g,'');
     const ref = doc(db, 'partidos', id);
-    // Verificar si ya existe para no duplicar
     const existing = await getDoc(ref);
     if (!existing.exists()) {
-      batch.set(ref, { ...p, id });
+      batch.set(ref, { ...p, id, numeropartido: 73 + i });
     }
   }
   await batch.commit();
@@ -875,6 +874,16 @@ window.generarLlaveCompleta = async function() {
 };
 
 // Funciones para propagar ganadores a las siguientes rondas
+// Número de inicio para cada fase eliminatoria (según el total de 104 partidos)
+const FASE_NUM_INICIO = {
+  'Dieciseisavos': 73, // 72 grupos + 16 = 73-88
+  'Octavos':       89, // +8 = 89-96
+  'Cuartos':       97, // +4 = 97-100
+  'Semifinal':    101, // +2 = 101-102
+  'Tercer Lugar': 103,
+  'Final':        104
+};
+
 async function propagarGanadores(rondaActual, rondaSiguiente, numPartidosSiguiente, silent=false) {
   const q = query(collection(db,'partidos'), where('fase','==',rondaActual), where('estado','==','Finalizado'));
   const snap = await getDocs(q);
@@ -883,15 +892,14 @@ async function propagarGanadores(rondaActual, rondaSiguiente, numPartidosSiguien
     const p = docSnap.data();
     if (p.golesLocal > p.golesVisitante) ganadores.push(p.local);
     else if (p.golesVisitante > p.golesLocal) ganadores.push(p.visitante);
-    else ganadores.push(null); // Empate: en teoría no debería pasar en eliminatoria
+    else ganadores.push(null);
   }
   
-  // Obtener partidos de la ronda siguiente que estén pendientes
   const qNext = query(collection(db,'partidos'), where('fase','==',rondaSiguiente));
   const nextSnap = await getDocs(qNext);
   const batch = writeBatch(db);
+  const numInicio = FASE_NUM_INICIO[rondaSiguiente] || 73;
   
-  // Si no existen partidos en la ronda siguiente, crearlos
   if (nextSnap.empty) {
     for (let i = 0; i < numPartidosSiguiente; i++) {
       const local = ganadores[i*2] || 'Por definir';
@@ -901,8 +909,8 @@ async function propagarGanadores(rondaActual, rondaSiguiente, numPartidosSiguien
       batch.set(ref, {
         id,
         fase: rondaSiguiente,
-        local: local,
-        visitante: visitante,
+        local, visitante,
+        numeropartido: numInicio + i,
         golesLocal: null,
         golesVisitante: null,
         estado: 'Pendiente',
@@ -910,7 +918,6 @@ async function propagarGanadores(rondaActual, rondaSiguiente, numPartidosSiguien
       });
     }
   } else {
-    // Actualizar existentes
     nextSnap.docs.forEach((docSnap, idx) => {
       const local = ganadores[idx*2];
       const visitante = ganadores[idx*2+1];
@@ -938,6 +945,7 @@ window.propagarFinal = async function() {
     await setDoc(tercerLugarRef, {
       id: 'tercer-lugar',
       fase: 'Tercer Lugar',
+      numeropartido: 103,
       local: 'Perdedor Semifinal 1',
       visitante: 'Perdedor Semifinal 2',
       golesLocal: null,
@@ -1071,9 +1079,20 @@ async function autoVerificarLlave() {
 }
 
 async function calcularPuntosPartido(partidoId, partido, golesLocalReal, golesVisitanteReal) {
-  const q = query(collection(db,'pronosticos'), where('partidoId','==',partidoId));
-  const snap = await getDocs(q);
-  
+  // Con la nueva estructura, los pronósticos se guardan como {codigo}-{numeropartido}
+  // Necesitamos el numeropartido del partido para buscarlo
+  const partidoDoc = await getDoc(doc(db,'partidos',partidoId));
+  const numeropartido = partidoDoc.exists() ? partidoDoc.data().numeropartido : null;
+
+  if (!numeropartido) {
+    console.warn('calcularPuntosPartido: numeropartido no encontrado para', partidoId);
+    return;
+  }
+
+  // Buscar todos los códigos para obtener los pronósticos {codigo}-{numeropartido}
+  const codigosSnap = await getDocs(collection(db,'codigos'));
+  const codigos = codigosSnap.docs.map(d=>d.data().codigo);
+
   const multiplicadores = {
     'Grupos':1,'Dieciseisavos':2,'Octavos':3,'Cuartos':4,
     'Semifinal':5,'Tercer Lugar':5,'Final':10
@@ -1082,25 +1101,27 @@ async function calcularPuntosPartido(partidoId, partido, golesLocalReal, golesVi
 
   const batch = writeBatch(db);
 
-  for (const pDoc of snap.docs) {
-    const pron = pDoc.data();
-    let pts = 0;
+  for (const codigo of codigos) {
+    const docId = codigo + '-' + numeropartido;
+    const pronRef = doc(db,'pronosticos',docId);
+    const pronSnap = await getDoc(pronRef);
+    if (!pronSnap.exists()) continue;
+    const pron = pronSnap.data();
 
+    let pts = 0;
     const ganadorReal = golesLocalReal > golesVisitanteReal ? 'local' : golesLocalReal < golesVisitanteReal ? 'visitante' : 'empate';
     const ganadorPron = pron.golesLocal > pron.golesVisitante ? 'local' : pron.golesLocal < pron.golesVisitante ? 'visitante' : 'empate';
 
     if (ganadorReal === ganadorPron) pts += 1;
     if (pron.golesLocal === golesLocalReal && pron.golesVisitante === golesVisitanteReal) pts += 2;
-
     pts *= mult;
 
-    batch.update(doc(db,'pronosticos',pDoc.id), { puntos:pts, calculado:true });
+    batch.update(pronRef, { puntos: pts, calculado: true });
 
     if (pron.participanteId) {
       const exacto = (pron.golesLocal === golesLocalReal && pron.golesVisitante === golesVisitanteReal);
       const acierto = (ganadorReal === ganadorPron);
-      const partRef = doc(db,'participantes',pron.participanteId);
-      batch.update(partRef, {
+      batch.update(doc(db,'participantes',pron.participanteId), {
         puntos: increment(pts),
         marcadoresExactos: exacto ? increment(1) : increment(0),
         aciertos: acierto ? increment(1) : increment(0)
@@ -1522,8 +1543,11 @@ window.inicializarPartidos = async function() {
   const msgEl = document.getElementById('msg-init');
   btn.innerHTML='<span class="spinner"></span> Creando...'; btn.disabled=true;
 
+  // Los partidos están ordenados: primero por grupo (A-L) luego por fecha.
+  // Eso define su numeropartido del 1 al 72 para fase de grupos.
+  // Los partidos eliminatorios recibirán su número al generarse (73-104).
   const PARTIDOS = [
-    // GRUPO A
+    // GRUPO A  (partidos 1-6)
     {grupo:'A',fase:'Grupos',fecha:'2026-06-11',local:'México',visitante:'Sudáfrica'},
     {grupo:'A',fase:'Grupos',fecha:'2026-06-11',local:'Corea del Sur',visitante:'República Checa'},
     {grupo:'A',fase:'Grupos',fecha:'2026-06-18',local:'República Checa',visitante:'Sudáfrica'},
@@ -1615,10 +1639,11 @@ window.inicializarPartidos = async function() {
     for (let i=0; i<PARTIDOS.length; i+=batchSize) {
       const batch = writeBatch(db);
       const chunk = PARTIDOS.slice(i, i+batchSize);
-      chunk.forEach(p=>{
+      chunk.forEach((p, chunkIdx)=>{
+        const numeropartido = i + chunkIdx + 1; // 1-72 para grupos
         const id = `${p.grupo||p.fase}-${p.local.replace(/\s/g,'-')}-${p.visitante.replace(/\s/g,'-')}`.toLowerCase().replace(/[^a-z0-9-]/g,'');
         batch.set(doc(db,'partidos',id),{
-          ...p, id,
+          ...p, id, numeropartido,
           golesLocal:null, golesVisitante:null, estado:'Pendiente'
         });
         count++;
