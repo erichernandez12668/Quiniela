@@ -80,7 +80,7 @@
     tr:hover td{background:rgba(255,255,255,0.02);}
     .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase;}
     .badge.active{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);}
-    .badge.inactive{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2);}
+    .badge.inactive{background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.2);}
     .badge.pending{background:rgba(234,179,8,0.1);color:#fbbf24;border:1px solid rgba(234,179,8,0.2);}
     .badge.done{background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.2);}
     .badge.live{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3);animation:pulse-badge 1.5s infinite;}
@@ -178,7 +178,7 @@
     .code-card-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .code-card-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; margin: 10px 0 8px; overflow: hidden; }
     .code-card-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.4s; }
-    .code-card-bar-fill.full { background: linear-gradient(90deg, var(--red), #e74c3c); }
+    .code-card-bar-fill.full { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
     .code-copy-hint { position: absolute; top: 12px; right: 12px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-family: 'Barlow Condensed', sans-serif; color: var(--text-dim); opacity: 0; transition: opacity 0.2s; }
     .code-card:hover .code-copy-hint { opacity: 1; }
     .code-copied-toast { position: absolute; top: 12px; right: 12px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-family: 'Barlow Condensed', sans-serif; color: var(--green); }
@@ -211,7 +211,7 @@
       letter-spacing: 1px; text-transform: uppercase; margin-left: 6px;
     }
     .code-fill-badge.full { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-    .code-fill-badge.partial { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+    .code-fill-badge.partial { background: rgba(100,116,139,0.1); color: #94a3b8; border: 1px solid rgba(100,116,139,0.2); }
 
     /* RESPONSIVE */
     @media(max-width:768px){
@@ -239,7 +239,7 @@
   <div class="nav-section">Principal</div>
   <div class="nav-item active" onclick="showPanel('dashboard')"><span class="nav-icon">📊</span>Dashboard</div>
   <div class="nav-item" onclick="showPanel('partidos')"><span class="nav-icon">⚽</span>Partidos</div>
-  <div class="nav-item" onclick="showPanel('llave')"><span class="nav-icon">🏆</span>Llave</div>
+  <div class="nav-item" onclick="showPanel('llave')"><span class="nav-icon">🏆</span>Partidos</div>
   <div class="nav-item" onclick="showPanel('ranking')"><span class="nav-icon">🥇</span>Ranking</div>
 
   <div class="nav-section">Gestión</div>
@@ -317,7 +317,9 @@
       <div class="table-wrap" id="partidos-table-wrap">
         <div class="table-header">
           <span class="table-title" id="partidos-label">Fase de Grupos</span>
-          <button class="btn btn-gold btn-sm" onclick="openInitModal()">⚡ Inicializar Partidos</button>
+          <div id="init-btn-container">
+            <button class="btn btn-gold btn-sm" id="btn-init-fase" onclick="openInitModal()">⚡ Inicializar Grupos</button>
+          </div>
         </div>
         <div id="partidos-list"></div>
       </div>
@@ -423,7 +425,8 @@
     <div class="modal-sub">Crea un nuevo código de acceso para participantes</div>
     <div class="input-group">
       <label>Cantidad de Participantes</label>
-      <input type="number" id="inp-permitidas" min="1" max="500" value="5" placeholder="5"/>
+      <input type="number" id="inp-permitidas" min="1" max="1" value="1" placeholder="1" disabled style="opacity:0.5;cursor:not-allowed;"/>
+      <span style="font-size:11px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;margin-top:4px;display:block">Cada código es para 1 participante</span>
     </div>
     <div class="input-group">
       <label>Código Personalizado (opcional)</label>
@@ -539,12 +542,12 @@ loadConfig();
 window.cerrarSesion = function() { window.location.href = 'index.html'; };
 
 // ── NAV ──────────────────────────────────────────────
-const panelTitles = { dashboard:'Dashboard', partidos:'Partidos', llave:'Llave del Torneo', ranking:'Ranking General', codigos:'Códigos de Acceso', participantes:'Participantes', config:'Configuración' };
+const panelTitles = { dashboard:'Dashboard', partidos:'Partidos', llave:'Partidos Eliminatorios', ranking:'Ranking General', codigos:'Códigos de Acceso', participantes:'Participantes', config:'Configuración' };
 window.showPanel = function(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  const navMap = { dashboard:'Dashboard', partidos:'Partidos', llave:'Llave', ranking:'Ranking', codigos:'Códigos', participantes:'Participantes', config:'Configuración' };
+  const navMap = { dashboard:'Dashboard', partidos:'Partidos', llave:'Partidos', ranking:'Ranking', codigos:'Códigos', participantes:'Participantes', config:'Configuración' };
   document.querySelectorAll('.nav-item').forEach(n=>{ if(n.textContent.includes(navMap[id])) n.classList.add('active'); });
   document.getElementById('panel-title').textContent = panelTitles[id];
   if (id==='llave') loadLlave();
@@ -614,7 +617,35 @@ window.filtrarFase = function(fase) {
   if (fase!=='Grupos') { currentGrupo=null; document.getElementById('grupo-tabs').style.display='none'; }
   else { currentGrupo='A'; buildGrupoTabs(); }
   renderPartidos();
+  actualizarBotonInit();
 };
+
+function actualizarBotonInit() {
+  const btn = document.getElementById('btn-init-fase');
+  if (!btn) return;
+  if (currentFase === 'Grupos') {
+    btn.textContent = '⚡ Inicializar Grupos';
+    btn.onclick = () => openInitModal();
+  } else if (currentFase === 'Dieciseisavos') {
+    btn.textContent = '🏆 Generar Dieciseisavos';
+    btn.onclick = () => generarLlaveCompleta();
+  } else if (currentFase === 'Octavos') {
+    btn.textContent = '➡️ Generar Octavos';
+    btn.onclick = () => propagarOctavos();
+  } else if (currentFase === 'Cuartos') {
+    btn.textContent = '➡️ Generar Cuartos';
+    btn.onclick = () => propagarCuartos();
+  } else if (currentFase === 'Semifinal') {
+    btn.textContent = '➡️ Generar Semis';
+    btn.onclick = () => propagarSemis();
+  } else if (currentFase === 'Final' || currentFase === 'Tercer Lugar') {
+    btn.textContent = '➡️ Generar Final + 3er Lugar';
+    btn.onclick = () => propagarFinal();
+  } else {
+    btn.textContent = '⚡ Inicializar';
+    btn.onclick = () => openInitModal();
+  }
+}
 
 window.filtrarGrupo = function(g) {
   currentGrupo = g;
@@ -735,141 +766,144 @@ function calcularTablaGrupo(partidos, grupo) {
   return equiposArray;
 }
 
-// Obtener todos los equipos clasificados (2 primeros de cada grupo + 8 mejores terceros)
-async function obtenerClasificados32() {
-  const partidosGrupos = await getResultadosGrupos();
+// ═══════════════════════════════════════════════════════════════════════════
+//  EMPAREJAMIENTO OFICIAL FIFA 2026 — igual que quiniela.html
+//  Los 16 partidos de Dieciseisavos siempre existen con "🏳️ Por definir"
+//  y se actualizan automáticamente al finalizar partidos de grupos
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Emparejamiento oficial (mismo que quiniela.html calcularDieciseisavos)
+const BRACKET_D16 = [
+  { idx:0,  local: (p,s,mt) => p('A'), visitante: (p,s,mt) => s('B')  },
+  { idx:1,  local: (p,s,mt) => p('C'), visitante: (p,s,mt) => mt(0)   },
+  { idx:2,  local: (p,s,mt) => p('E'), visitante: (p,s,mt) => s('D')  },
+  { idx:3,  local: (p,s,mt) => p('G'), visitante: (p,s,mt) => mt(1)   },
+  { idx:4,  local: (p,s,mt) => p('B'), visitante: (p,s,mt) => s('C')  },
+  { idx:5,  local: (p,s,mt) => p('D'), visitante: (p,s,mt) => mt(2)   },
+  { idx:6,  local: (p,s,mt) => p('F'), visitante: (p,s,mt) => s('E')  },
+  { idx:7,  local: (p,s,mt) => p('H'), visitante: (p,s,mt) => mt(3)   },
+  { idx:8,  local: (p,s,mt) => p('I'), visitante: (p,s,mt) => s('J')  },
+  { idx:9,  local: (p,s,mt) => p('K'), visitante: (p,s,mt) => mt(4)   },
+  { idx:10, local: (p,s,mt) => p('J'), visitante: (p,s,mt) => s('I')  },
+  { idx:11, local: (p,s,mt) => p('L'), visitante: (p,s,mt) => mt(5)   },
+  { idx:12, local: (p,s,mt) => s('A'), visitante: (p,s,mt) => s('F')  },
+  { idx:13, local: (p,s,mt) => s('G'), visitante: (p,s,mt) => mt(6)   },
+  { idx:14, local: (p,s,mt) => s('H'), visitante: (p,s,mt) => s('K')  },
+  { idx:15, local: (p,s,mt) => s('L'), visitante: (p,s,mt) => mt(7)   },
+];
+
+// Calcula clasificados usando resultados reales de grupos finalizados
+// Devuelve funciones p(grupo), s(grupo), mt(n) con nombre del equipo o placeholder
+function calcularClasificadosParciales(todosPartidos) {
   const grupos = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-  let primeros = [];
-  let segundos = [];
-  let terceros = [];
-
-  for (let grupo of grupos) {
-    const tabla = calcularTablaGrupo(partidosGrupos, grupo);
-    if (tabla.length >= 4) {
-      primeros.push({ nombre: tabla[0].nombre, grupo, pts: tabla[0].pts, dif: tabla[0].dif, gf: tabla[0].gf });
-      segundos.push({ nombre: tabla[1].nombre, grupo, pts: tabla[1].pts, dif: tabla[1].dif, gf: tabla[1].gf });
-      terceros.push({ nombre: tabla[2].nombre, grupo, pts: tabla[2].pts, dif: tabla[2].dif, gf: tabla[2].gf });
-    }
-  }
-  // Ordenar terceros por puntos, diferencia, goles
-  terceros.sort((a,b) => {
-    if (a.pts !== b.pts) return b.pts - a.pts;
-    if (a.dif !== b.dif) return b.dif - a.dif;
-    return b.gf - a.gf;
-  });
-  const mejoresTerceros = terceros.slice(0, 8);
-  const todosClasificados = [...primeros, ...segundos, ...mejoresTerceros];
-  return { primeros, segundos, mejoresTerceros, todos: todosClasificados };
-}
-
-// Generar llave de Dieciseisavos (32 equipos -> 16 partidos) con emparejamientos según formato FIFA 2026 estándar
-async function generarDieciseisavos(clasificados) {
-  const { primeros, segundos, mejoresTerceros } = clasificados;
-  const emparejamientos = [];
-  
-  // Mapeo de grupos para los emparejamientos según formato típico:
-  // 1A vs 3C, 1B vs 3D, 1C vs 3A, 1D vs 3B, 1E vs 3G, 1F vs 3H, 1G vs 3E, 1H vs 3F
-  // 2A vs 2B, 2C vs 2D, 2E vs 2F, 2G vs 2H, y luego los restantes según procedencia
-  // Para simplificar y asegurar que todos queden emparejados, usaremos este orden:
-  const ordenPrimeros = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-  const ordenSegundos = ['A','B','C','D','E','F','G','H','I','J','K','L'];
-  const ordenTerceros = ['C','D','A','B','G','H','E','F']; // los 8 mejores terceros vienen de distintos grupos
-  
-  // Crear un mapa de equipos por grupo para facilitar
   const primerosPorGrupo = {};
-  primeros.forEach(p => { primerosPorGrupo[p.grupo] = p.nombre; });
   const segundosPorGrupo = {};
-  segundos.forEach(s => { segundosPorGrupo[s.grupo] = s.nombre; });
-  const tercerosLista = [...mejoresTerceros];
-  
-  // Generar 16 partidos
-  for (let i = 0; i < 8; i++) {
-    // Partidos de primeros vs terceros
-    const grupoPrimero = ordenPrimeros[i];
-    const grupoTercero = ordenTerceros[i];
-    const local = primerosPorGrupo[grupoPrimero];
-    const visitante = tercerosLista[i]?.nombre;
-    if (local && visitante) {
-      emparejamientos.push({
-        fase: 'Dieciseisavos',
-        local: local,
-        visitante: visitante,
-        golesLocal: null,
-        golesVisitante: null,
-        estado: 'Pendiente',
-        fecha: new Date(Date.now() + (i+1)*24*60*60*1000).toISOString(),
-        orden: i
-      });
+  const tercerosCandidatos = [];
+
+  for (const grupo of grupos) {
+    const partidos = todosPartidos.filter(p => p.fase === 'Grupos' && p.grupo === grupo && p.estado === 'Finalizado');
+    const equipos = [...new Set(todosPartidos.filter(p=>p.fase==='Grupos'&&p.grupo===grupo).flatMap(p=>[p.local,p.visitante]))];
+    const stats = {};
+    equipos.forEach(e => { stats[e] = { pts:0, dif:0, gf:0, gc:0, pj:0, enfrentamientos:{} }; });
+
+    for (const p of partidos) {
+      const gL = p.golesLocal, gV = p.golesVisitante;
+      stats[p.local].pj++;  stats[p.visitante].pj++;
+      stats[p.local].gf  += gL; stats[p.local].gc  += gV;
+      stats[p.visitante].gf += gV; stats[p.visitante].gc += gL;
+      stats[p.local].dif  += (gL-gV); stats[p.visitante].dif += (gV-gL);
+      if (!stats[p.local].enfrentamientos[p.visitante]) stats[p.local].enfrentamientos[p.visitante]={gf:0,gc:0};
+      if (!stats[p.visitante].enfrentamientos[p.local]) stats[p.visitante].enfrentamientos[p.local]={gf:0,gc:0};
+      stats[p.local].enfrentamientos[p.visitante].gf+=gL; stats[p.local].enfrentamientos[p.visitante].gc+=gV;
+      stats[p.visitante].enfrentamientos[p.local].gf+=gV; stats[p.visitante].enfrentamientos[p.local].gc+=gL;
+      if (gL>gV){stats[p.local].pts+=3;} else if(gL<gV){stats[p.visitante].pts+=3;} else{stats[p.local].pts++;stats[p.visitante].pts++;}
+    }
+
+    const sorted = [...equipos].sort((a,b)=>{
+      if(stats[a].pts!==stats[b].pts) return stats[b].pts-stats[a].pts;
+      if(stats[a].dif!==stats[b].dif) return stats[b].dif-stats[a].dif;
+      if(stats[a].gf!==stats[b].gf)   return stats[b].gf-stats[a].gf;
+      const enf=stats[a].enfrentamientos[b];
+      if(enf){ const d=enf.gf-enf.gc; if(d!==0) return -d; }
+      return a.localeCompare(b);
+    });
+
+    // Solo asignar nombre real si hay al menos 1 partido finalizado en el grupo
+    const hayResultados = partidos.length > 0;
+    primerosPorGrupo[grupo] = hayResultados ? sorted[0] : null;
+    segundosPorGrupo[grupo] = hayResultados ? sorted[1] : null;
+    if (hayResultados && sorted[2]) {
+      tercerosCandidatos.push({ nombre: sorted[2], grupo, pts: stats[sorted[2]].pts, dif: stats[sorted[2]].dif, gf: stats[sorted[2]].gf });
     }
   }
-  
-  // Partidos de segundos vs segundos (los 8 segundos restantes se emparejan entre sí)
-  for (let i = 8; i < 16; i++) {
-    const idx1 = i - 8;
-    const idx2 = idx1 + 8;
-    const local = segundosPorGrupo[ordenSegundos[idx1]];
-    const visitante = segundosPorGrupo[ordenSegundos[idx2]];
-    if (local && visitante) {
-      emparejamientos.push({
-        fase: 'Dieciseisavos',
-        local: local,
-        visitante: visitante,
-        golesLocal: null,
-        golesVisitante: null,
-        estado: 'Pendiente',
-        fecha: new Date(Date.now() + (i+1)*24*60*60*1000).toISOString(),
-        orden: i
-      });
-    }
-  }
-  
-  return emparejamientos.slice(0, 16); // Asegurar exactamente 16
+
+  const mejoresTerceros = [...tercerosCandidatos].sort((a,b)=>{
+    if(a.pts!==b.pts) return b.pts-a.pts;
+    if(a.dif!==b.dif) return b.dif-a.dif;
+    if(a.gf!==b.gf)   return b.gf-a.gf;
+    return a.nombre.localeCompare(b.nombre);
+  });
+
+  // Funciones helper que devuelven nombre real o placeholder
+  const p  = (g) => primerosPorGrupo[g] || `🏳️ 1° Grupo ${g}`;
+  const s  = (g) => segundosPorGrupo[g] || `🏳️ 2° Grupo ${g}`;
+  const mt = (n) => mejoresTerceros[n]?.nombre || `🏳️ 3° Clasificado ${n+1}`;
+
+  return { p, s, mt };
 }
 
-// Guardar la llave generada en Firestore
-async function guardarLlave(partidos) {
+// Crear o actualizar los 16 partidos de Dieciseisavos
+// Si no existen: los crea con placeholder. Si existen: actualiza equipos si el actual es placeholder
+async function sincronizarDieciseisavos(todosPartidos) {
+  const { p, s, mt } = calcularClasificadosParciales(todosPartidos);
   const batch = writeBatch(db);
-  for (let [i, p] of partidos.entries()) {
-    const id = `dieciseisavos-${p.local}-${p.visitante}`.toLowerCase().replace(/[^a-z0-9-]/g,'');
+  const FECHA_BASE = new Date('2026-07-04');
+
+  for (const def of BRACKET_D16) {
+    const i = def.idx;
+    const localNombre     = def.local(p, s, mt);
+    const visitanteNombre = def.visitante(p, s, mt);
+    const id = `dieciseisavos-${i}`;
     const ref = doc(db, 'partidos', id);
     const existing = await getDoc(ref);
+    const fecha = new Date(FECHA_BASE.getTime() + i * 12*60*60*1000).toISOString().split('T')[0];
+
     if (!existing.exists()) {
-      batch.set(ref, { ...p, id, numeropartido: 73 + i });
+      batch.set(ref, {
+        id, fase: 'Dieciseisavos',
+        local: localNombre, visitante: visitanteNombre,
+        golesLocal: null, golesVisitante: null,
+        estado: 'Pendiente', fecha,
+        numeropartido: 73 + i, orden: i
+      });
+    } else {
+      const data = existing.data();
+      const esPlaceholder = (n) => typeof n === 'string' && n.startsWith('🏳️');
+      const updates = {};
+      if (esPlaceholder(data.local)     && !esPlaceholder(localNombre))     updates.local = localNombre;
+      if (esPlaceholder(data.visitante) && !esPlaceholder(visitanteNombre)) updates.visitante = visitanteNombre;
+      if (Object.keys(updates).length) batch.update(ref, updates);
     }
   }
   await batch.commit();
 }
 
-// Función principal que ejecuta la clasificación y crea la llave
+// Botón "Generar Dieciseisavos" — crea los 16 partidos con placeholders ahora mismo
 window.generarLlaveCompleta = async function() {
-  const btn = document.getElementById('btn-generar-llave');
-  if (!btn) return;
-  const originalText = btn.innerText;
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Generando...';
+  const btn = document.getElementById('btn-generar-llave') || document.getElementById('btn-init-fase');
+  const originalText = btn?.innerHTML || '🏆 Generar Dieciseisavos';
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Creando...'; }
   try {
-    // 1. Obtener clasificados
-    const clasificados = await obtenerClasificados32();
-    if (clasificados.todos.length < 32) {
-      alert(`Solo hay ${clasificados.todos.length} equipos clasificados. Asegúrate de que todos los partidos de grupos estén finalizados.`);
-      return;
-    }
-    // 2. Generar Dieciseisavos
-    const dieciseisavos = await generarDieciseisavos(clasificados);
-    if (dieciseisavos.length < 16) {
-      alert(`Solo se generaron ${dieciseisavos.length} partidos. Verifica los clasificados.`);
-      return;
-    }
-    await guardarLlave(dieciseisavos);
-    alert(`✅ Se generaron ${dieciseisavos.length} partidos de Dieciseisavos.`);
-    // Recargar la vista de partidos y llave
+    const snap = await getDocs(collection(db,'partidos'));
+    const todosPartidos = snap.docs.map(d => ({id:d.id,...d.data()}));
+    await sincronizarDieciseisavos(todosPartidos);
+    showSnackbar('✅ 16 partidos de Dieciseisavos listos');
     loadPartidosPanel();
     loadLlave();
   } catch(e) {
     alert('Error: ' + e.message);
   } finally {
-    btn.disabled = false;
-    btn.innerHTML = originalText;
+    if (btn) { btn.disabled = false; btn.innerHTML = originalText; }
   }
 };
 
@@ -1041,19 +1075,13 @@ async function autoVerificarLlave() {
     const totalGrupos = gruposSnap.size;
     const finalizadosGrupos = gruposSnap.docs.filter(d=>d.data().estado==='Finalizado').length;
 
-    if (totalGrupos > 0 && finalizadosGrupos === totalGrupos) {
-      // Todos los partidos de grupos están finalizados → generar llave automáticamente
-      const diecisSnap = await getDocs(query(collection(db,'partidos'), where('fase','==','Dieciseisavos')));
-      if (diecisSnap.empty) {
-        showSnackbar('🏆 Todos los grupos finalizados. Generando Dieciseisavos automáticamente...');
-        const clasificados = await obtenerClasificados32();
-        if (clasificados.todos.length >= 32) {
-          const dieciseisavos = await generarDieciseisavos(clasificados);
-          await guardarLlave(dieciseisavos);
-          showSnackbar(`✅ Dieciseisavos generados automáticamente (${dieciseisavos.length} partidos)`);
-          loadPartidosPanel();
-          loadLlave();
-        }
+    // Después de cada partido de grupos: sincronizar Dieciseisavos con equipos parciales o reales
+    if (totalGrupos > 0 && finalizadosGrupos > 0) {
+      const snap = await getDocs(collection(db,'partidos'));
+      const todosPartidos = snap.docs.map(d => ({id:d.id,...d.data()}));
+      await sincronizarDieciseisavos(todosPartidos);
+      if (finalizadosGrupos === totalGrupos) {
+        showSnackbar('🏆 Grupos finalizados — Dieciseisavos actualizados con equipos reales');
       }
     }
 
@@ -1093,11 +1121,18 @@ async function calcularPuntosPartido(partidoId, partido, golesLocalReal, golesVi
   const codigosSnap = await getDocs(collection(db,'codigos'));
   const codigos = codigosSnap.docs.map(d=>d.data().codigo);
 
-  const multiplicadores = {
+  // Puntos por fase: ganador acertado suma ptsGanador, marcador exacto suma adicionalmente ptsExacto
+  // Derrota (no acertó ganador ni empate): 0 puntos
+  const ptsGanadorBase = {
     'Grupos':1,'Dieciseisavos':2,'Octavos':3,'Cuartos':4,
-    'Semifinal':5,'Tercer Lugar':5,'Final':10
+    'Semifinal':5,'Tercer Lugar':5,'Final':6
   };
-  const mult = multiplicadores[partido.fase] || 1;
+  const ptsExtraExacto = {
+    'Grupos':2,'Dieciseisavos':3,'Octavos':4,'Cuartos':5,
+    'Semifinal':6,'Tercer Lugar':6,'Final':7
+  };
+  const baseGanador = ptsGanadorBase[partido.fase] || 1;
+  const extraExacto = ptsExtraExacto[partido.fase] || 2;
 
   const batch = writeBatch(db);
 
@@ -1112,14 +1147,15 @@ async function calcularPuntosPartido(partidoId, partido, golesLocalReal, golesVi
     const ganadorReal = golesLocalReal > golesVisitanteReal ? 'local' : golesLocalReal < golesVisitanteReal ? 'visitante' : 'empate';
     const ganadorPron = pron.golesLocal > pron.golesVisitante ? 'local' : pron.golesLocal < pron.golesVisitante ? 'visitante' : 'empate';
 
-    if (ganadorReal === ganadorPron) pts += 1;
-    if (pron.golesLocal === golesLocalReal && pron.golesVisitante === golesVisitanteReal) pts += 2;
-    pts *= mult;
+    if (ganadorReal === ganadorPron) {
+      pts += baseGanador;
+      if (pron.golesLocal === golesLocalReal && pron.golesVisitante === golesVisitanteReal) pts += extraExacto;
+    }
 
     batch.update(pronRef, { puntos: pts, calculado: true });
 
     if (pron.participanteId) {
-      const exacto = (pron.golesLocal === golesLocalReal && pron.golesVisitante === golesVisitanteReal);
+      const exacto = (ganadorReal === ganadorPron && pron.golesLocal === golesLocalReal && pron.golesVisitante === golesVisitanteReal);
       const acierto = (ganadorReal === ganadorPron);
       batch.update(doc(db,'participantes',pron.participanteId), {
         puntos: increment(pts),
@@ -1216,14 +1252,13 @@ async function loadCodigos() {
         if (!partSnap.empty) participante = partSnap.docs[0].data();
       } catch(e){}
 
-      // Contar pronósticos llenados
+      // Contar partidos llenados: la colección cuyo nombre ES el código
+      // contiene un doc por cada partido llenado (misma lógica que quiniela.html)
       let pronosticosCount = 0;
-      if (participante) {
-        try {
-          const pronSnap = await getDocs(query(collection(db,'pronosticos'), where('participanteId','==',partSnap?.docs?.[0]?.id || participante.id || '')));
-          pronosticosCount = pronSnap.size;
-        } catch(e){}
-      }
+      try {
+        const codigoColSnap = await getDocs(collection(db, c.codigo));
+        pronosticosCount = codigoColSnap.size;
+      } catch(e){}
 
       const pctLlenado = Math.min(100, Math.round((pronosticosCount / TOTAL_PARTIDOS) * 100));
       const lleno = pctLlenado >= 100;
@@ -1234,23 +1269,26 @@ async function loadCodigos() {
     cardsEl.innerHTML = enriched.map(c => {
       const usadas = c.quinielasUsadas || 0;
       const pct = Math.round((usadas / c.quinielasPermitidas) * 100);
-      const codigoLleno = usadas >= c.quinielasPermitidas;
-      const activo = c.activo && !codigoLleno;
+      const cupoOcupado = usadas >= c.quinielasPermitidas;
+      const pronosticoCompleto = c.pronosticosCount >= 104;
+      const activo = c.activo && !cupoOcupado;
       const disponibles = c.quinielasPermitidas - usadas;
       const baseUrl = window.location.origin + window.location.pathname.replace('admin.html','');
       const link = `${baseUrl}quiniela.html?codigo=${c.codigo}`;
       const nombreParticipante = c.participante?.nombre || 'Por definir';
-      const llenadoPron = c.lleno ? 'LLENO' : `${c.pctLlenado}%`;
+      const llenadoPron = pronosticoCompleto ? '✅ Completo' : `${c.pronosticosCount} / 104`;
+      const estadoBadge = activo ? 'active' : 'inactive';
+      const estadoText = activo ? 'Activo' : cupoOcupado ? 'Cupo lleno' : 'Inactivo';
       return `
-      <div class="code-card ${codigoLleno?'full':''}" id="card-${c.codigo}" onclick="copiarCodigo('${c.codigo}','${link}','${c.codigo}')">
+      <div class="code-card" id="card-${c.codigo}" onclick="copiarCodigo('${c.codigo}','${link}','${c.codigo}')">
         <span class="code-copy-hint">📋 Copiar link</span>
         <div class="code-card-value">${c.codigo}</div>
         <div class="code-card-owner">👤 <span>${nombreParticipante}</span></div>
-        <div class="code-card-bar"><div class="code-card-bar-fill ${codigoLleno?'full':''}" style="width:${pct}%"></div></div>
+        <div class="code-card-bar"><div class="code-card-bar-fill ${pronosticoCompleto?'full':''}" style="width:${c.pctLlenado}%"></div></div>
         <div class="code-card-meta">
-          <span class="badge ${activo?'active':codigoLleno?'inactive':'inactive'}">${activo?'Activo':codigoLleno?'Lleno':'Inactivo'}</span>
-          <span style="font-size:12px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif">${usadas}/${c.quinielasPermitidas} cupos</span>
-          <span class="code-fill-badge ${c.lleno?'full':'partial'}">
+          <span class="badge ${estadoBadge}">${estadoText}</span>
+          <span style="font-size:12px;color:var(--text-dim);font-family:'Barlow Condensed',sans-serif">${usadas}/${c.quinielasPermitidas} cupo</span>
+          <span class="code-fill-badge ${pronosticoCompleto?'full':'partial'}">
             📋 ${llenadoPron}
           </span>
         </div>
@@ -1261,11 +1299,13 @@ async function loadCodigos() {
 
     tbody.innerHTML = enriched.map(c => {
       const usadas = c.quinielasUsadas || 0;
-      const codigoLleno = usadas >= c.quinielasPermitidas;
-      const activo = c.activo && !codigoLleno;
-      const disponibles = c.quinielasPermitidas - usadas;
-      const nombreParticipante = c.participante?.nombre || 'Por definir';
-      const llenadoPron = c.lleno ? '✅ Lleno' : `${c.pctLlenado}%`;
+      const cupoOcupado2 = usadas >= c.quinielasPermitidas;
+      const pronosticoCompleto2 = c.pronosticosCount >= 104;
+      const activo2 = c.activo && !cupoOcupado2;
+      const disponibles2 = c.quinielasPermitidas - usadas;
+      const nombreParticipante2 = c.participante?.nombre || 'Por definir';
+      const llenadoPron2 = pronosticoCompleto2 ? '✅ Completo' : `${c.pronosticosCount} / 104`;
+      const estadoText2 = activo2 ? 'Activo' : cupoOcupado2 ? 'Cupo lleno' : 'Inactivo';
       return `
       <tr>
         <td>
@@ -1274,17 +1314,17 @@ async function loadCodigos() {
             ${c.codigo}
           </span>
         </td>
-        <td style="font-size:13px;color:var(--text);font-family:'Barlow Condensed',sans-serif">${nombreParticipante}</td>
-        <td>${c.quinielasPermitidas}</td>
+        <td style="font-size:13px;color:var(--text);font-family:'Barlow Condensed',sans-serif">${nombreParticipante2}</td>
+        <td>1</td>
         <td>${usadas}</td>
-        <td><strong style="color:${disponibles>0?'var(--green)':'var(--red)'}">${disponibles}</strong></td>
-        <td><span class="badge ${activo?'active':codigoLleno?'inactive':'inactive'}">${activo?'Activo':codigoLleno?'Lleno':'Inactivo'}</span></td>
-        <td style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:${c.lleno?'var(--green)':'var(--gold)'}">${llenadoPron}</td>
+        <td><strong style="color:${disponibles2>0?'var(--green)':'var(--text-dim)'}">${disponibles2}</strong></td>
+        <td><span class="badge ${activo2?'active':'inactive'}">${estadoText2}</span></td>
+        <td style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:${pronosticoCompleto2?'var(--green)':'var(--gold)'}">${llenadoPron2}</td>
         <td style="font-size:12px;color:var(--text-dim)">${c.fechaCreacion||'—'}</td>
         <td style="display:flex;gap:6px;flex-wrap:wrap;">
           <button class="btn btn-ghost btn-sm" onclick="copiarCodigo('${c.codigo}','','${c.codigo}')">📋 Copiar</button>
           <button class="btn ${c.activo?'btn-danger':'btn-green'} btn-sm" onclick="toggleCodigo('${c.id}',${!c.activo})">${c.activo?'Desactivar':'Activar'}</button>
-          <button class="btn btn-danger btn-sm" onclick="eliminarCodigo('${c.id}','${c.codigo}')">🗑</button>
+          <button class="btn btn-ghost btn-sm" onclick="eliminarCodigo('${c.id}','${c.codigo}')">🗑</button>
         </td>
       </tr>`;
     }).join('');
@@ -1370,7 +1410,7 @@ window.openGenerarCodigo = function() {
 };
 
 window.generarCodigo = async function() {
-  const permitidas = parseInt(document.getElementById('inp-permitidas').value);
+  const permitidas = 1; // Cada código es para exactamente 1 participante
   let customCode = document.getElementById('inp-custom-code').value.trim().toUpperCase();
   const msgEl = document.getElementById('msg-codigo-modal');
   const btn = document.getElementById('btn-generar-codigo');
@@ -1420,7 +1460,7 @@ window.generarLote = async function() {
     for(let i=0;i<5;i++){
       const codigo = 'QUI-'+randomStr(5);
       batch.set(doc(db,'codigos',codigo),{
-        codigo, quinielasPermitidas:5, quinielasUsadas:0,
+        codigo, quinielasPermitidas:1, quinielasUsadas:0,
         activo:true, fechaCreacion: new Date().toISOString().split('T')[0]
       });
       generados.push(codigo);
@@ -1456,11 +1496,19 @@ async function loadParticipantes() {
       </tr>
     `).join('');
 
+    // Contar partidos llenados: la colección cuyo nombre es el código del participante
+    // contiene un doc por cada partido llenado (igual que en quiniela.html)
     docs.forEach(async p=>{
-      const q = query(collection(db,'pronosticos'),where('participanteId','==',p.id));
-      const s = await getDocs(q);
-      const el = document.getElementById('pron-cnt-'+p.id);
-      if(el) { el.textContent = s.size; el.className='badge active'; }
+      try {
+        if (!p.codigo) return;
+        const codigoSnap = await getDocs(collection(db, p.codigo));
+        const llenados = codigoSnap.size;
+        const el = document.getElementById('pron-cnt-'+p.id);
+        if(el) {
+          el.textContent = llenados + ' / 104';
+          el.className = llenados >= 104 ? 'badge done' : 'badge pending';
+        }
+      } catch(e){ console.error('pron-count error',p.codigo,e); }
     });
   } catch(e){ console.error(e); }
 }
@@ -1568,13 +1616,15 @@ window.inicializarPartidos = async function() {
     {grupo:'C',fase:'Grupos',fecha:'2026-06-19',local:'Brasil',visitante:'Haití'},
     {grupo:'C',fase:'Grupos',fecha:'2026-06-24',local:'Brasil',visitante:'Escocia'},
     {grupo:'C',fase:'Grupos',fecha:'2026-06-24',local:'Marruecos',visitante:'Haití'},
-    // GRUPO D
-    {grupo:'D',fase:'Grupos',fecha:'2026-06-12',local:'Estados Unidos',visitante:'Turquía'},
-    {grupo:'D',fase:'Grupos',fecha:'2026-06-13',local:'Australia',visitante:'Paraguay'},
-    {grupo:'D',fase:'Grupos',fecha:'2026-06-19',local:'Estados Unidos',visitante:'Australia'},
-    {grupo:'D',fase:'Grupos',fecha:'2026-06-19',local:'Turquía',visitante:'Paraguay'},
-    {grupo:'D',fase:'Grupos',fecha:'2026-06-25',local:'Turquía',visitante:'Estados Unidos'},
-    {grupo:'D',fase:'Grupos',fecha:'2026-06-25',local:'Paraguay',visitante:'Australia'},
+// GRUPO D
+{grupo:'D',fase:'Grupos',fecha:'2026-06-12',local:'Estados Unidos',visitante:'Turquía'},
+{grupo:'D',fase:'Grupos',fecha:'2026-06-13',local:'Australia',visitante:'Paraguay'},
+
+{grupo:'D',fase:'Grupos',fecha:'2026-06-19',local:'Estados Unidos',visitante:'Australia'},
+{grupo:'D',fase:'Grupos',fecha:'2026-06-19',local:'Turquía',visitante:'Paraguay'},
+
+{grupo:'D',fase:'Grupos',fecha:'2026-06-25',local:'Estados Unidos',visitante:'Paraguay'},
+{grupo:'D',fase:'Grupos',fecha:'2026-06-25',local:'Turquía',visitante:'Australia'},
     // GRUPO E
     {grupo:'E',fase:'Grupos',fecha:'2026-06-14',local:'Alemania',visitante:'Curazao'},
     {grupo:'E',fase:'Grupos',fecha:'2026-06-14',local:'Costa de Marfil',visitante:'Ecuador'},
